@@ -27,7 +27,7 @@ class MainCoordinator: Coordinator {
     }()
     
     static func setInstance(root: UIViewController) {
-        MainCoordinator.instance = MainCoordinator(navigationController: setInstance(HomeViewController()))
+        MainCoordinator.instance = MainCoordinator(navigationController: setInstance(root))
     }
     
     static func setInstance(_ navigationRoot: UIViewController) -> UINavigationController {

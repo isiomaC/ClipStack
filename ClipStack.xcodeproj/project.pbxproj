@@ -20,7 +20,7 @@
 		13A3D70827DD140D00423A32 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D70727DD140D00423A32 /* Enums.swift */; };
 		13A3D70E27DD144600423A32 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D70D27DD144600423A32 /* BaseViewController.swift */; };
 		13A3D71027DD146900423A32 /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D70F27DD146900423A32 /* BasePresenter.swift */; };
-		13A3D71227DD14D400423A32 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D71127DD14D400423A32 /* HomeViewController.swift */; };
+		13A3D71227DD14D400423A32 /* CopyItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D71127DD14D400423A32 /* CopyItemsViewController.swift */; };
 		13A3D71527DD162B00423A32 /* GenericCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D71427DD162B00423A32 /* GenericCollectionViewController.swift */; };
 		13A3D71727DD16EA00423A32 /* CopyItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D71627DD16EA00423A32 /* CopyItemDTO.swift */; };
 		13A3D71A27DD177C00423A32 /* CopyItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D71927DD177C00423A32 /* CopyItemCell.swift */; };
@@ -35,13 +35,14 @@
 		13A3D72C27DD4E5A00423A32 /* _BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D72B27DD4E5A00423A32 /* _BaseView.swift */; };
 		13A3D72E27DDD10400423A32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D72D27DDD10400423A32 /* Extensions.swift */; };
 		13AA5EAB27DF19DB00DB6B0D /* CopyItemHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */; };
-		13F5129F27FAF00800A49C55 /* CopyItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F5129E27FAF00800A49C55 /* CopyItemViewController.swift */; };
 		13F512A127FAF04700A49C55 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A027FAF04700A49C55 /* SettingsViewController.swift */; };
 		13F512A327FAF06D00A49C55 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A227FAF06D00A49C55 /* SettingsView.swift */; };
-		13F512A527FAF07600A49C55 /* CopyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A427FAF07600A49C55 /* CopyItemView.swift */; };
-		13F512A727FAF1F600A49C55 /* NewHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A627FAF1F600A49C55 /* NewHomeVC.swift */; };
+		13F512A527FAF07600A49C55 /* CopyItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A427FAF07600A49C55 /* CopyItemsView.swift */; };
+		13F512A727FAF1F600A49C55 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A627FAF1F600A49C55 /* HomeViewController.swift */; };
 		13F512A927FC6C5500A49C55 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A827FC6C5500A49C55 /* TabBarController.swift */; };
 		13F512AB27FC6F8500A49C55 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AA27FC6F8500A49C55 /* SettingsCoordinator.swift */; };
+		13F512AD27FD002B00A49C55 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AC27FD002B00A49C55 /* HomeViewCell.swift */; };
+		13F512B027FD08D900A49C55 /* CollectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AF27FD08D900A49C55 /* CollectionsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,7 +82,7 @@
 		13A3D70727DD140D00423A32 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		13A3D70D27DD144600423A32 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		13A3D70F27DD146900423A32 /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
-		13A3D71127DD14D400423A32 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		13A3D71127DD14D400423A32 /* CopyItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemsViewController.swift; sourceTree = "<group>"; };
 		13A3D71427DD162B00423A32 /* GenericCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericCollectionViewController.swift; sourceTree = "<group>"; };
 		13A3D71627DD16EA00423A32 /* CopyItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemDTO.swift; sourceTree = "<group>"; };
 		13A3D71927DD177C00423A32 /* CopyItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemCell.swift; sourceTree = "<group>"; };
@@ -96,13 +97,14 @@
 		13A3D72B27DD4E5A00423A32 /* _BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _BaseView.swift; sourceTree = "<group>"; };
 		13A3D72D27DDD10400423A32 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemHeaderCell.swift; sourceTree = "<group>"; };
-		13F5129E27FAF00800A49C55 /* CopyItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemViewController.swift; sourceTree = "<group>"; };
 		13F512A027FAF04700A49C55 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		13F512A227FAF06D00A49C55 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		13F512A427FAF07600A49C55 /* CopyItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemView.swift; sourceTree = "<group>"; };
-		13F512A627FAF1F600A49C55 /* NewHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeVC.swift; sourceTree = "<group>"; };
+		13F512A427FAF07600A49C55 /* CopyItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemsView.swift; sourceTree = "<group>"; };
+		13F512A627FAF1F600A49C55 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		13F512A827FC6C5500A49C55 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		13F512AA27FC6F8500A49C55 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		13F512AC27FD002B00A49C55 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
+		13F512AF27FD08D900A49C55 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +249,7 @@
 		13A3D70A27DD142A00423A32 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				13F512AE27FD08CD00A49C55 /* Collections */,
 				13F5129D27FAEFE200A49C55 /* Lists */,
 				13F5129C27FAEFCE00A49C55 /* Settings */,
 				13A3D70C27DD143A00423A32 /* Home */,
@@ -267,9 +270,9 @@
 		13A3D70C27DD143A00423A32 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				13A3D71127DD14D400423A32 /* HomeViewController.swift */,
 				13A3D72927DD4E4500423A32 /* HomeView.swift */,
-				13F512A627FAF1F600A49C55 /* NewHomeVC.swift */,
+				13F512A627FAF1F600A49C55 /* HomeViewController.swift */,
+				13F512AC27FD002B00A49C55 /* HomeViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -307,10 +310,18 @@
 		13F5129D27FAEFE200A49C55 /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				13F5129E27FAF00800A49C55 /* CopyItemViewController.swift */,
-				13F512A427FAF07600A49C55 /* CopyItemView.swift */,
+				13A3D71127DD14D400423A32 /* CopyItemsViewController.swift */,
+				13F512A427FAF07600A49C55 /* CopyItemsView.swift */,
 			);
 			path = Lists;
+			sourceTree = "<group>";
+		};
+		13F512AE27FD08CD00A49C55 /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				13F512AF27FD08D900A49C55 /* CollectionsViewController.swift */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,7 +454,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13F5129F27FAF00800A49C55 /* CopyItemViewController.swift in Sources */,
 				13A3D6D427DD134B00423A32 /* ClipStack.xcdatamodeld in Sources */,
 				13A3D71727DD16EA00423A32 /* CopyItemDTO.swift in Sources */,
 				13A3D71E27DD4D0F00423A32 /* Font.swift in Sources */,
@@ -461,8 +471,10 @@
 				13A3D72427DD4D6200423A32 /* ViewOptions.swift in Sources */,
 				13A3D70E27DD144600423A32 /* BaseViewController.swift in Sources */,
 				13A3D72A27DD4E4500423A32 /* HomeView.swift in Sources */,
-				13F512A527FAF07600A49C55 /* CopyItemView.swift in Sources */,
-				13A3D71227DD14D400423A32 /* HomeViewController.swift in Sources */,
+				13F512AD27FD002B00A49C55 /* HomeViewCell.swift in Sources */,
+				13F512A527FAF07600A49C55 /* CopyItemsView.swift in Sources */,
+				13F512B027FD08D900A49C55 /* CollectionsViewController.swift in Sources */,
+				13A3D71227DD14D400423A32 /* CopyItemsViewController.swift in Sources */,
 				13A3D6CA27DD134B00423A32 /* AppDelegate.swift in Sources */,
 				13A3D70827DD140D00423A32 /* Enums.swift in Sources */,
 				13A3D72627DD4DBE00423A32 /* TextFieldPasteDisabled.swift in Sources */,
@@ -471,7 +483,7 @@
 				13F512AB27FC6F8500A49C55 /* SettingsCoordinator.swift in Sources */,
 				13AA5EAB27DF19DB00DB6B0D /* CopyItemHeaderCell.swift in Sources */,
 				13A3D72027DD4D2800423A32 /* ViewGenerator.swift in Sources */,
-				13F512A727FAF1F600A49C55 /* NewHomeVC.swift in Sources */,
+				13F512A727FAF1F600A49C55 /* HomeViewController.swift in Sources */,
 				13F512A327FAF06D00A49C55 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

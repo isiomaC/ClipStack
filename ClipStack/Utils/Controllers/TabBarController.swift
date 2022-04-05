@@ -29,21 +29,24 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.unselectedItemTintColor = .white
         tabBar.tintColor = .systemGray
         
-        
+        // Home View Controller Start Up
         let homeVC = HomeViewController()
         MainCoordinator.setInstance(root: homeVC)
         
         let homeTabIcon = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
-        homeVC.tabBarItem = homeTabIcon
         
         guard let navFromCoordinator = MainCoordinator.shared.navigationController else{
             return
         }
+        navFromCoordinator.tabBarItem = homeTabIcon
         
+        // Settings View Controller Start Up
         let settingsVC = SettingsViewController()
         let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 1)
         settingsVC.tabBarItem = menuTabIcon
         
+        
+        // Adding all Tab View Controllers
         self.viewControllers = [navFromCoordinator, settingsVC].map({ (viewController) in
             viewController
         })

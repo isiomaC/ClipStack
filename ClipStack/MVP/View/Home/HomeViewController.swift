@@ -1,291 +1,163 @@
 //
-//  HomeViewController.swift
+//  NewHomeVC.swift
 //  ClipStack
 //
-//  Created by Chuck on 12/03/2022.
+//  Created by Chuck on 04/04/2022.
 //
 
 import Foundation
 import UIKit
-//import CoreData
 
 
-class HomeViewController: GenericCollectionView<CopyItem, CopyItemCell>{
+struct HomeOptionsDTO {
+    let name: String
+    let nameTint: UIColor
+    let image: UIImage
+    let imageTint: UIColor
+    let accessoryType : UITableViewCell.AccessoryType
+    
+    init(name: String, nameTint: UIColor = .darkText, image: UIImage, imageTint: UIColor = .darkText, accessoryType: UITableViewCell.AccessoryType = .disclosureIndicator) {
+        self.name = name
+        self.nameTint = nameTint
+        self.image = image
+        self.imageTint = imageTint
+        self.accessoryType = accessoryType
+    }
+    
+    static func getOptions() -> ([HomeOptionsDTO], [HomeOptionsDTO]) {
         
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    let pasteboard = UIPasteboard.general
+        let defaultOptions: [HomeOptionsDTO] = [
+            HomeOptionsDTO(name: "All", image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: "Recents",  image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: "Collections",  image: UIImage(systemName: "book")! ),
+        ]
+        
+        let copyItemOptions: [HomeOptionsDTO] = [
+            HomeOptionsDTO(name: CopyItemType.text.rawValue.capitalizingFirstLetter(), image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: CopyItemType.image.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: CopyItemType.url.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: CopyItemType.color.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
+        ]
+        
+        return (defaultOptions, copyItemOptions)
+    }
+}
+
+
+class HomeViewController: UITableViewController {
     
-//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var abc : String?
     
-    var homePresenter: HomePresenter?
-    let homeView = HomeView()
+    let (defaultOptions, copyItemOptions) = HomeOptionsDTO.getOptions()
     
-    var searching = false
-    
-    var searchBar: UISearchBar?
+    let cellIdentifier = "menuCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MainCoordinator.shared.toggleNavBarDisplay(hidden: false)
+        initTableView()
         
-        initializePresenter()
-        initializeViews()
-        title = "ClipStack"
-        addCreateButton()
+        tableView.register(HomeViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
-        print(dataFilePath)
-    
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+//        self.title = "ClipStack"
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        addNotification()
+        self.title = "ClipStack"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeNotification()
+        self.title = ""
+        navigationController?.navigationBar.prefersLargeTitles = false
+        view.isHidden = true
     }
     
-    //MARK:- Initialize Views and Presenter
-    func initializePresenter(){
-        homePresenter = HomePresenter(delegate: self)
-        homePresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        homePresenter?.getCopyItems(type: nil)
-    }
-    
-    func initializeViews(){
-        
-//        let labelOpts = LabelOptions(text: "History", color: .black, fontStyle: AppFonts.textField)
-//        let sectionTopHeader = ViewGenerator.getLabel(labelOpts, LabelInsets(5,5,5,5))
-//        homeView.addSectionHeader(label: sectionTopHeader, position: "top")
-//
-//        let labelOpts2 = LabelOptions(text: "Type", color: .black, fontStyle: AppFonts.textField)
-//        let sectionBottomHeader = ViewGenerator.getLabel(labelOpts2, LabelInsets(5,5,5,5))
-//        homeView.addSectionHeader(label: sectionBottomHeader, position: "bottom")
-        
-//        homeView.topArea.addSubview(collecionView)
-//        homeView.topArea.backgroundColor = .systemPink
-        view = homeView
-        
-        //add another collectionView
-        view.addSubview(collecionView)
-    }
-    
-    //MARK:- Copy Update Notifications
-    func addNotification(){
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePasteBoard), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    func removeNotification(){
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    @objc func updatePasteBoard(notification: Notification){
-        //determine type of data to save
-        var newCopyItem : CopyItemDTO
-        var type: CopyItemType?
-        var content : Data?
-        
-        if pasteboard.hasStrings || pasteboard.hasURLs{
-            
-            //decode string
-            //String(decoding: data, as: UTF8.self)
-            
-            //URL and string are stored in pasteboard.string
-            guard let saveString = pasteboard.string else{
-                return
-            }
-            
-            if saveString.starts(with: "http"){
-                type = CopyItemType.url
-            }else{
-                type = CopyItemType.text
-            }
-            content = Data(saveString.utf8)
-             
-        }else if pasteboard.hasImages{
-            
-            //save Image
-            type = CopyItemType.image
-            guard let saveImage = pasteboard.image, let mData = saveImage.pngData() else{
-                return
-            }
-            content = mData
-            
-        }else if pasteboard.hasColors{
-            
-            type = CopyItemType.color
-            guard let saveColor = pasteboard.color, let colorData = saveColor.encode() else{
-                return
-            }
-            content = colorData
-            
-        }
-        
-        let mDate = Date()
-        //save data
-        newCopyItem = CopyItemDTO(color: "systemBlue", content: content, dateCreated: mDate, dateUpdated: mDate, folderId: UUID(), id: UUID(), keyId: UUID(), title: "test_title", type: type)
-        
-        //in another fucntion, get all saved notes and display
-        
-        //save
-        homePresenter?.save(newCopyItem)
-        
-        
-        print(pasteboard.strings)
-        print(pasteboard.images)
-        print(pasteboard.urls)
-        print(pasteboard.colors)
-    }
-    
-    private func setUpSearchBar() {
-        guard let statusBarView = UIApplication.shared.statusBarView else {
-            return
-        }
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: statusBarView.frame.height,
-                                              width: Dimensions.screenSize.width, height: 60))
-        searchBar?.delegate = self
-        searchBar?.clearBackgroundColor()
-        searchBar?.placeholder = "Enter search term"
-        
-//        searchBar?.setLeftImage(UIImage(color: .red), tintColor: .white)
-//        searchBar?.showsCancelButton = true
-    }
-    
-    //MARK: Core Data Code
-    
-    
-    // MARK: Helper functions
-    private func addCreateButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createCopyItem))
-    }
-    
-    @objc func createCopyItem(){
-        print("Create Manually")
-    }
-    
-    override func initializeDefaults() {
-        setUpSearchBar()
-        let frame = CGRect(x: 0, y: UIApplication.shared.statusBarView!.frame.height + searchBar!.frame.height,
+    private func initTableView() {
+        let frame = CGRect(x: 0, y: UIApplication.shared.statusBarView!.frame.height,
                            width: Dimensions.screenSize.width, height: Dimensions.screenSize.height)
-        mFlowLayout = getFlowLayOut()
-        collecionView = UICollectionView(frame: frame, collectionViewLayout: mFlowLayout)
-//        mFlowLayout.headerReferenceSize = CGSize(width: Dimensions.CollectionViewFlowLayoutWidth, height: Dimensions.halfScreenHeight * 0.7)
         
-        progressBar = UIActivityIndicatorView(style: .medium)
-        emptyView = ViewGenerator.getLabel(LabelOptions(text: "", color: .black, fontStyle: AppFonts.labelText))
-    }
-    
-    override func createOneTimeVariables() {
-        hasRefresh = true
-    }
-    
-    override func getData(array: [Any]) -> [CopyItem] {
-//        guard let presenter = homePresenter else {
-//            return []
-//        }
-//        return presenter.getDataItems(nil)
-        
-        if let mArray = array as? [CopyItem] {
-            return mArray
-        }
-        return [CopyItem]()
-    }
-    
-    override func setupHeaderViews(header: UIView) {
-        if let mView = header as? CopyItemHeaderCell {
-//            mView.bgImage = UIImageView(image: .remove)
-        }
-    }
-
-   
-    
-    override func displayItem(_ cell: CopyItemCell, _ data: CopyItem, _ position: Int) {
-        
-        guard let mTypeString = data.type else {
-            return
-        }
-        
-        let mType = CopyItemType.init(rawValue: mTypeString)
-        
-        cell.tag = position
-//        cell.label.backgroundColor = .label
-        cell.backgroundColor = .systemPink
-        
-        switch mType{
-            case .image:
-                print("image")
-                cell.hideElement(view: cell.imageArea, isHidden: false)
-                cell.hideElement(view: cell.label, isHidden: true)
-                cell.imageArea.image = UIImage(data: data.content!)
-                break
-            case .text, .url:
-                print("text or Url")
-                if mType == .url {
-                    // handle URL with Link View
-                    // Display or hide as needed.
-//                    print(String(data: data.content!, encoding: .utf8))
-                    
-                    cell.hideElement(view: cell.imageArea, isHidden: true)
-                    cell.label.text = String(data: data.content!, encoding: .utf8)
-                }
-                
-                if mType == .text {
-//                    print(String(data: data.content!, encoding: .utf8))
-                    cell.hideElement(view: cell.imageArea, isHidden: true)
-                    cell.label.text = String(data: data.content!, encoding: .utf8)
-                }
-                
-                break
-            case .color:
-                print("color")
-                cell.hideElement(view: cell.label, isHidden: true)
-                break
-                
-            default: break
-            
-        }
-    }
-    
-    override func selectItem(_ dataSet: CopyItem, _ position: Int) {
-        print(position)
-    }
-    
-    override func fetchedDataFromCoreDataDB(data: [CopyItem]) {
-        print(data)
-        updateCollectionView(data, "testKey")
+        tableView = UITableView(frame: frame, style: .insetGrouped)
     }
     
 }
 
 
-
-
-extension HomeViewController: UISearchBarDelegate {
+//Table View Overrides
+extension HomeViewController {
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if !searchText.isReallyEmpty {
-            let cleanText = searchText.trim()
-            let filtered = dataSet.filter({$0.title!.lowercased().contains(cleanText.lowercased())})
-            replaceAll(itemList: filtered )
-            searching = true
-            notifyChange()
-        } else {
-            replaceAll(itemList: []) //getDefault to replace all with defaullt
-            print(searchText.isReallyEmpty)
-            DispatchQueue.main.async {
-//                IQKeyboardManager.shared.resignFirstResponder()
-            }
-        }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searching = false
-        replaceAll(itemList: []) //getDefault to replace all with defaullt
-//        IQKeyboardManager.shared.resignFirstResponder()
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "History" : "Type"
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return section == 0 ? defaultOptions.count : copyItemOptions.count
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            
+            let option = defaultOptions[indexPath.row]
+            
+            var nextVC : CoordinatingDelegate
+            
+            switch option.name {
+                case "All":
+                
+                    nextVC = CopyItemsViewController()
+                    (nextVC as? CopyItemsViewController)?.queryFilter = "All"
+                    MainCoordinator.shared.pushVC(nextVC)
+                    break;
+                case "Recents":
+                    
+                    nextVC = CopyItemsViewController()
+                    (nextVC as? CopyItemsViewController)?.queryFilter = "Recents"
+                    MainCoordinator.shared.pushVC(nextVC)
+                    break;
+                case "Collections":
+                    nextVC = CollectionsViewController()
+                    MainCoordinator.shared.pushVC(nextVC)
+                    break;
+                default : break;
+            }
+            
+            
+        }else if indexPath.section == 1 {
+            let option = copyItemOptions[indexPath.row]
+            
+            
+        }
+        print(indexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        
+        let item = indexPath.section == 0 ? defaultOptions[indexPath.row] : copyItemOptions[indexPath.row]
+    
+        cell.textLabel?.text = item.name
+        
+        cell.imageView?.image = item.image
+
+        cell.accessoryType = item.accessoryType
+
+        return cell
+            
     }
     
 }
