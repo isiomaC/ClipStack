@@ -43,6 +43,8 @@
 		13F512AB27FC6F8500A49C55 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AA27FC6F8500A49C55 /* SettingsCoordinator.swift */; };
 		13F512AD27FD002B00A49C55 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AC27FD002B00A49C55 /* HomeViewCell.swift */; };
 		13F512B027FD08D900A49C55 /* CollectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512AF27FD08D900A49C55 /* CollectionsViewController.swift */; };
+		13F512B227FD0EB400A49C55 /* HomeOptionsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512B127FD0EB400A49C55 /* HomeOptionsDTO.swift */; };
+		13F512B427FFA68B00A49C55 /* ImageCopyItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512B327FFA68B00A49C55 /* ImageCopyItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 		13F512AA27FC6F8500A49C55 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		13F512AC27FD002B00A49C55 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		13F512AF27FD08D900A49C55 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
+		13F512B127FD0EB400A49C55 /* HomeOptionsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeOptionsDTO.swift; sourceTree = "<group>"; };
+		13F512B327FFA68B00A49C55 /* ImageCopyItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCopyItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				13A3D71627DD16EA00423A32 /* CopyItemDTO.swift */,
+				13F512B127FD0EB400A49C55 /* HomeOptionsDTO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 				13A3D72727DD4DE200423A32 /* PaddedLabel.swift */,
 				13A3D72B27DD4E5A00423A32 /* _BaseView.swift */,
 				13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */,
+				13F512B327FFA68B00A49C55 /* ImageCopyItemCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -456,9 +462,11 @@
 			files = (
 				13A3D6D427DD134B00423A32 /* ClipStack.xcdatamodeld in Sources */,
 				13A3D71727DD16EA00423A32 /* CopyItemDTO.swift in Sources */,
+				13F512B427FFA68B00A49C55 /* ImageCopyItemCell.swift in Sources */,
 				13A3D71E27DD4D0F00423A32 /* Font.swift in Sources */,
 				13A3D72827DD4DE200423A32 /* PaddedLabel.swift in Sources */,
 				13A3D71027DD146900423A32 /* BasePresenter.swift in Sources */,
+				13F512B227FD0EB400A49C55 /* HomeOptionsDTO.swift in Sources */,
 				13A3D71C27DD186100423A32 /* HomePresenter.swift in Sources */,
 				13A3D70027DD13A100423A32 /* MainCoordinator.swift in Sources */,
 				13F512A927FC6C5500A49C55 /* TabBarController.swift in Sources */,

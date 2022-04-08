@@ -21,8 +21,9 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     let cellIdentifier = "cell", headerIdentifier = "header", footerIdentifier = "footer"
     
     var verticalSpacing: CGFloat = 15
+    var tabBarOffSet: CGFloat = 120
     
-    var hasEdgeMargins = true, hasRefresh = true, appeared = false, hasHeader = false
+    var hasEdgeMargins = true, hasRefresh = true, appeared = false, hasHeader = false, hasTabBar = false
     
     var collecionView: UICollectionView!
     var mFlowLayout: UICollectionViewFlowLayout!
@@ -40,7 +41,7 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         initializeDefaults()
         createOneTimeVariables()
         
-        collecionView.backgroundColor = .systemBlue
+//        collecionView.backgroundColor = .systemBlue
         
         collecionView.register(DataCell.self, forCellWithReuseIdentifier: cellIdentifier)
 //        collecionView.register(CopyItemHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -83,8 +84,9 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
       
        layout.estimatedItemSize = CGSize(width: Dimensions.CollectionViewFlowLayoutWidth, height: Dimensions.screenSize.height * 0.2)
 //        // CGSize(width: Dimensions.screenSize.width/2, height: Dimensions.screenSize.height * 0.2)
-//       layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 130, right: 10)
+//       layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: -200, right: 10)
 
+        
        layout.minimumInteritemSpacing = 10
         
        return layout
@@ -173,7 +175,25 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         selectItem(getItem(indexPath.row), indexPath.row)
     }
     
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let condif =  UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] elements in
+            return self?.buildContextMenu(for: (self?.dataSet[indexPath.row])!)
+        }
+        
+        return condif
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        guard let tabBarHeight = tabBarController?.tabBar.frame.height else {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+        
+        //tabBarOffSet
+        if hasTabBar {
+            return UIEdgeInsets(top: 0, left: 0, bottom: (tabBarHeight + tabBarOffSet), right: 0)
+        }
+        
         return hasEdgeMargins
             ? UIEdgeInsets(top: verticalSpacing, left: 0, bottom: verticalSpacing, right: 0)
             : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -183,6 +203,14 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     // Functions to Override
     func initializeDefaults() {
         
+    }
+    
+    func buildContextMenu(for: DataItem) -> UIMenu {
+        let copy = UIAction(title: "Copy", image: UIImage(systemName: "")) { action in
+            //perform action here
+        }
+        
+        return UIMenu(title: "Default", image: nil, children: [copy])
     }
     
     func createOneTimeVariables() {

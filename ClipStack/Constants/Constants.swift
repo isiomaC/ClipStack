@@ -12,7 +12,7 @@ struct Dimensions {
     static let screenSize = UIScreen.main.bounds
     static let halfScreenHeight = screenSize.height * 0.5
     static let halfScreenWidth = screenSize.width * 0.5
-    static let CollectionViewFlowLayoutWidth = Dimensions.screenSize.width - 30
+    static let CollectionViewFlowLayoutWidth = Dimensions.screenSize.width - 30 //Sets Margins for collectionView
 }
 
 

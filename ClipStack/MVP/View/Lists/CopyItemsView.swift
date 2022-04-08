@@ -20,13 +20,14 @@ class CopyItemsView : UIView {
         super.init(frame: frame)
         initialize()
         
+        backgroundColor = .systemBackground
     }
     
     func initialize() {
         
-        addSubview(topArea)
-        addSubview(bottomArea)
-        addConstraints()
+//        addSubview(topArea)
+//        addSubview(bottomArea)
+//        addConstraints()
     }
     
     func addSectionHeader(label: UILabel, position: String = "top"){
@@ -59,6 +60,8 @@ class CopyItemsView : UIView {
 //
 //        someButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
 //        someButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,constant: 20).isActive = true
+        topArea.translatesAutoresizingMaskIntoConstraints = false
+        bottomArea.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             topArea.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),

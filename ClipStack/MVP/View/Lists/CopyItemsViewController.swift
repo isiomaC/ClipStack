@@ -42,6 +42,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         addCreateButton()
         
         print(dataFilePath)
+        
     
     }
     
@@ -133,7 +134,16 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         
         let mDate = Date()
         //save data
-        newCopyItem = CopyItemDTO(color: "systemBlue", content: content, dateCreated: mDate, dateUpdated: mDate, folderId: UUID(), id: UUID(), keyId: UUID(), title: "test_title", type: type)
+        newCopyItem = CopyItemDTO(
+            color: "systemBlue",
+            content: content,
+            dateCreated: mDate,
+            dateUpdated: mDate,
+            folderId: UUID(),
+            id: UUID(),
+            keyId: UUID(),
+            title: "test_title",
+            type: type)
         
         //in another fucntion, get all saved notes and display
         
@@ -175,10 +185,12 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     override func initializeDefaults() {
         setUpSearchBar()
+        hasTabBar = true
         let frame = CGRect(x: 0, y: UIApplication.shared.statusBarView!.frame.height + searchBar!.frame.height,
                            width: Dimensions.screenSize.width, height: Dimensions.screenSize.height)
         mFlowLayout = getFlowLayOut()
         collecionView = UICollectionView(frame: frame, collectionViewLayout: mFlowLayout)
+        collecionView.backgroundColor = .systemBackground
 //        mFlowLayout.headerReferenceSize = CGSize(width: Dimensions.CollectionViewFlowLayoutWidth, height: Dimensions.halfScreenHeight * 0.7)
         
         progressBar = UIActivityIndicatorView(style: .medium)
@@ -218,8 +230,12 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         let mType = CopyItemType.init(rawValue: mTypeString)
         
         cell.tag = position
-//        cell.label.backgroundColor = .label
-        cell.backgroundColor = .systemPink
+        
+        if let itemDate = data.dateCreated {
+            let dateFormatterPrint = DateFormatter()
+            dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+            cell.date.text = dateFormatterPrint.string(from: itemDate)
+        }
         
         switch mType{
             case .image:
@@ -230,18 +246,17 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
                 break
             case .text, .url:
                 print("text or Url")
+                cell.hideElement(view: cell.label, isHidden: false)
+                cell.hideElement(view: cell.imageArea, isHidden: true)
+                
                 if mType == .url {
                     // handle URL with Link View
                     // Display or hide as needed.
 //                    print(String(data: data.content!, encoding: .utf8))
-                    
-                    cell.hideElement(view: cell.imageArea, isHidden: true)
                     cell.label.text = String(data: data.content!, encoding: .utf8)
                 }
                 
                 if mType == .text {
-//                    print(String(data: data.content!, encoding: .utf8))
-                    cell.hideElement(view: cell.imageArea, isHidden: true)
                     cell.label.text = String(data: data.content!, encoding: .utf8)
                 }
                 
@@ -265,8 +280,63 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         updateCollectionView(data, "testKey")
     }
     
+
+    
+    
+    override func buildContextMenu(for copy: CopyItem) -> UIMenu {
+        let copy = UIAction(title: "Copy", image: UIImage(systemName: "")) { [weak self] action in
+            
+            let mType = CopyItemType.init(rawValue: copy.type!)
+            
+            if let mPasteBoard = self?.pasteboard {
+                switch mType{
+                    case .text:
+                        if let text = String(data: copy.content!, encoding: .utf8){
+                            mPasteBoard.string = text
+                        }
+                        break;
+                    case .url:
+                        if let strng = String(data: copy.content!, encoding: .utf8){
+                            mPasteBoard.string = strng
+                            mPasteBoard.url = URL(string: strng)
+                        }
+                        break;
+                    case .image:
+                        if let img = UIImage(data: copy.content!){
+                            mPasteBoard.image = img
+                        }
+                        break;
+                    case .color:
+                        if let color = UIColor.color(data: copy.content!){
+                            mPasteBoard.color = color
+                        }
+                        break;
+                    default : break;
+                }
+            }
+        }
+      return UIMenu(title: "", children: [copy])
+    }
+    
 }
 
+
+//extension CopyItemsViewController: UIContextMenuInteractionDelegate {
+//    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self]actions in
+//            return self?.buildContextMenu()
+//        }
+//    }
+//
+//    func buildContextMenu(for: IndexPath) -> UIMenu {
+//        let copy = UIAction(title: Copy, image: UIImage(systemName: "")) { action in
+//            <#code#>
+//        }
+//
+//        return UIMenu(title: "Options", children: [copy])
+//    }
+//
+//}
 
 
 
