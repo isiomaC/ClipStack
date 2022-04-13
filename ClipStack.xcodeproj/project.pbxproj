@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		137B0DC92806469400C854F3 /* CopyItemsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */; };
+		137B0DCC28064ABC00C854F3 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */; };
+		137B0DCE28064E0C00C854F3 /* MetaDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DCD28064E0C00C854F3 /* MetaDataCache.swift */; };
 		13A3D6CA27DD134B00423A32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D6C927DD134B00423A32 /* AppDelegate.swift */; };
 		13A3D6D127DD134B00423A32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A3D6CF27DD134B00423A32 /* Main.storyboard */; };
 		13A3D6D427DD134B00423A32 /* ClipStack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D6D227DD134B00423A32 /* ClipStack.xcdatamodeld */; };
@@ -65,6 +68,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemsPresenter.swift; sourceTree = "<group>"; };
+		137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		137B0DCD28064E0C00C854F3 /* MetaDataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataCache.swift; sourceTree = "<group>"; };
 		13A3D6C627DD134B00423A32 /* ClipStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A3D6C927DD134B00423A32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A3D6D027DD134B00423A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -136,6 +142,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		137B0DCA28064AAA00C854F3 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
 		13A3D6BD27DD134B00423A32 = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +252,7 @@
 				13A3D71F27DD4D2800423A32 /* ViewGenerator.swift */,
 				13A3D72127DD4D4C00423A32 /* Reachability.swift */,
 				13A3D72327DD4D6200423A32 /* ViewOptions.swift */,
+				137B0DCD28064E0C00C854F3 /* MetaDataCache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -254,6 +269,7 @@
 		13A3D70A27DD142A00423A32 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				137B0DCA28064AAA00C854F3 /* Details */,
 				13F512AE27FD08CD00A49C55 /* Collections */,
 				13F5129D27FAEFE200A49C55 /* Lists */,
 				13F5129C27FAEFCE00A49C55 /* Settings */,
@@ -268,6 +284,7 @@
 			children = (
 				13A3D70F27DD146900423A32 /* BasePresenter.swift */,
 				13A3D71B27DD186100423A32 /* HomePresenter.swift */,
+				137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -464,14 +481,17 @@
 				13A3D71727DD16EA00423A32 /* CopyItemDTO.swift in Sources */,
 				13F512B427FFA68B00A49C55 /* ImageCopyItemCell.swift in Sources */,
 				13A3D71E27DD4D0F00423A32 /* Font.swift in Sources */,
+				137B0DCC28064ABC00C854F3 /* DetailsViewController.swift in Sources */,
 				13A3D72827DD4DE200423A32 /* PaddedLabel.swift in Sources */,
 				13A3D71027DD146900423A32 /* BasePresenter.swift in Sources */,
 				13F512B227FD0EB400A49C55 /* HomeOptionsDTO.swift in Sources */,
 				13A3D71C27DD186100423A32 /* HomePresenter.swift in Sources */,
 				13A3D70027DD13A100423A32 /* MainCoordinator.swift in Sources */,
 				13F512A927FC6C5500A49C55 /* TabBarController.swift in Sources */,
+				137B0DCE28064E0C00C854F3 /* MetaDataCache.swift in Sources */,
 				13F512A127FAF04700A49C55 /* SettingsViewController.swift in Sources */,
 				13A3D71A27DD177C00423A32 /* CopyItemCell.swift in Sources */,
+				137B0DC92806469400C854F3 /* CopyItemsPresenter.swift in Sources */,
 				13A3D71527DD162B00423A32 /* GenericCollectionViewController.swift in Sources */,
 				13A3D72E27DDD10400423A32 /* Extensions.swift in Sources */,
 				13A3D6FF27DD13A100423A32 /* Coordinator.swift in Sources */,

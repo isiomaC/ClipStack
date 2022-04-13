@@ -113,6 +113,21 @@ class ViewGenerator {
         return imgView
     }
     
+    static func getImageView(_ props: ImageViewOptions) -> UIImageView {
+        let imgView = UIImageView(frame: CGRect(x: 0, y: 0, width: props.size!.width, height: props.size!.height))
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+//        imgView.layer.cornerRadius = imgView.frame.size.height/2
+        imgView.layer.masksToBounds = false
+        imgView.clipsToBounds = true
+        
+        if let img = props.image {
+            imgView.image = img
+        } else {
+            imgView.backgroundColor = .systemGray
+        }
+        return imgView
+    }
+    
     static func getSwitch() -> UISwitch {
         return UISwitch()
     }

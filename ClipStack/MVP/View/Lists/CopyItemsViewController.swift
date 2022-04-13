@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 //import CoreData
+import LinkPresentation
 
 
 class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
@@ -17,7 +18,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
 //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    var copyItemsPresenter: HomePresenter?
+    var copyItemsPresenter: CopyItemsPresenter?
     let homeView = CopyItemsView()
     
     var searching = false
@@ -58,7 +59,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     //MARK:- Initialize Views and Presenter
     func initializePresenter(){
-        copyItemsPresenter = HomePresenter(delegate: self)
+        copyItemsPresenter = CopyItemsPresenter(delegate: self)
         copyItemsPresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         copyItemsPresenter?.getCopyItems(type: nil)
     }
@@ -240,30 +241,67 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         switch mType{
             case .image:
                 print("image")
-                cell.hideElement(view: cell.imageArea, isHidden: false)
-                cell.hideElement(view: cell.label, isHidden: true)
+                
+                cell.show(view: cell.imageArea)
+               
                 cell.imageArea.image = UIImage(data: data.content!)
                 break
             case .text, .url:
-                print("text or Url")
-                cell.hideElement(view: cell.label, isHidden: false)
-                cell.hideElement(view: cell.imageArea, isHidden: true)
+                print(mType)
                 
                 if mType == .url {
-                    // handle URL with Link View
-                    // Display or hide as needed.
-//                    print(String(data: data.content!, encoding: .utf8))
-                    cell.label.text = String(data: data.content!, encoding: .utf8)
+                    cell.show(view: cell.containerLinkView)
+                   
+//                     handle URL with Link View
+                    let urlString = String(data: data.content!, encoding: .utf8)!
+//                    let mUrl = URL(string: urlString)
+            
+                    copyItemsPresenter?.fetchMetaData(url: urlString, completion: { metaData in
+                        guard let meta = metaData else {
+                            return
+                        }
+                        cell.linkView.metadata = meta
+                        cell.linkView.sizeToFit()
+                    })
+                    
                 }
                 
                 if mType == .text {
-                    cell.label.text = String(data: data.content!, encoding: .utf8)
+                    if let contentString = String(data: data.content!, encoding: .utf8){
+                        if contentString.starts(with: "http"){
+                            cell.show(view: cell.containerLinkView)
+//                            cell.containerLinkView.backgroundColor = .red
+                            
+                            let urlString = String(data: data.content!, encoding: .utf8)!
+//                            let murl = URL(string: String(data: data.content!, encoding: .utf8)!)
+                           
+                            copyItemsPresenter?.fetchMetaData(url: urlString, completion: { metaData in
+                                guard let meta = metaData else {
+                                    return
+                                }
+                                cell.linkView.metadata = meta
+                                cell.linkView.sizeToFit()
+                            })
+                            
+        //                     handle URL with Link View
+//                            let linkMetaData = LPLinkMetadata()
+//                            linkMetaData.originalURL =
+//                            linkMetaData.url = linkMetaData.originalURL
+//                            linkMetaData.title = ""
+
+//                            cell.linkView.metadata = linkMetaData
+                        }else{
+                            cell.show(view: cell.label)
+                            cell.label.text = contentString
+                        }
+                    }
                 }
                 
                 break
             case .color:
                 print("color")
-                cell.hideElement(view: cell.label, isHidden: true)
+                
+//                cell.show(view: cell.color)
                 break
                 
             default: break
@@ -280,43 +318,15 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         updateCollectionView(data, "testKey")
     }
     
-
-    
     
     override func buildContextMenu(for copy: CopyItem) -> UIMenu {
-        let copy = UIAction(title: "Copy", image: UIImage(systemName: "")) { [weak self] action in
-            
-            let mType = CopyItemType.init(rawValue: copy.type!)
-            
-            if let mPasteBoard = self?.pasteboard {
-                switch mType{
-                    case .text:
-                        if let text = String(data: copy.content!, encoding: .utf8){
-                            mPasteBoard.string = text
-                        }
-                        break;
-                    case .url:
-                        if let strng = String(data: copy.content!, encoding: .utf8){
-                            mPasteBoard.string = strng
-                            mPasteBoard.url = URL(string: strng)
-                        }
-                        break;
-                    case .image:
-                        if let img = UIImage(data: copy.content!){
-                            mPasteBoard.image = img
-                        }
-                        break;
-                    case .color:
-                        if let color = UIColor.color(data: copy.content!){
-                            mPasteBoard.color = color
-                        }
-                        break;
-                    default : break;
-                }
-            }
+        guard let presenter = copyItemsPresenter else {
+            return UIMenu()
         }
-      return UIMenu(title: "", children: [copy])
+        return presenter.getMenuConfiguration(copy: copy)
     }
+    
+    
     
 }
 

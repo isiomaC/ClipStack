@@ -19,13 +19,19 @@ class CopyItemCell: UICollectionViewCell{
     lazy var date = ViewGenerator.getLabel(dateOptions, LabelInsets(0, 0, 0, 0))
     
     let imageOptions = ImageViewOptions(image: nil, size: (width: 100, height: 100))
-    lazy var imageArea = ViewGenerator.getRoundedImageView(imageOptions)
+    lazy var imageArea = ViewGenerator.getImageView(imageOptions)
     
     let btnOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "square.grid.4x3.fill"), smiley: nil)
     lazy var threeDotsButton = ViewGenerator.getButton(btnOptions, circular: true)
     
     
-    lazy var linkView = LPLinkView()
+    lazy var containerLinkView : UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .center
+        return stack
+    }()
+    
+    var linkView = LPLinkView(metadata: LPLinkMetadata())
     lazy var textContentView = ViewGenerator.getLabel(labelOpts, LabelInsets(0, 0, 0, 0))
 //    lazy var imageView = ViewGenerator.getRoundedImageView(imageViewProps)
     
@@ -38,7 +44,7 @@ class CopyItemCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray6
+        
         initialize()
     }
     
@@ -51,6 +57,24 @@ class CopyItemCell: UICollectionViewCell{
         view.isHidden = isHidden
     }
     
+    func show(view: UIView){
+        if view is UIImageView{
+            imageArea.isHidden = false
+            containerLinkView.isHidden = true
+            label.isHidden = true
+        }else if view is UIStackView{
+            containerLinkView.isHidden = false
+            imageArea.isHidden = true
+            label.isHidden = true
+        }else if view is UILabel{
+            label.isHidden = false
+            imageArea.isHidden = true
+            containerLinkView.isHidden = true
+        }else {
+            
+        }
+    }
+    
     func initialize() {
         
         contentView.layer.cornerRadius = 20
@@ -59,10 +83,17 @@ class CopyItemCell: UICollectionViewCell{
         contentView.addSubview(date)
         contentView.addSubview(imageArea)
         contentView.addSubview(threeDotsButton)
+        containerLinkView.addArrangedSubview(linkView)
+        linkView.sizeToFit()
+        contentView.addSubview(containerLinkView)
+//        contentView.addSubview(linkView)
         
 //        contentView.addSubview(linkView)
 //        contentView.addSubview(textContentView)
 //        contentView.addSubview(imageView)
+        
+        label.lineBreakMode = .byTruncatingMiddle
+        label.numberOfLines = 3
         
         triggerConstraints()
     }
@@ -76,15 +107,18 @@ class CopyItemCell: UICollectionViewCell{
     
     func triggerConstraints() {
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        containerLinkView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.backgroundColor = .systemGray6
 
         contentView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        contentView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3).isActive = true
+        contentView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
 
 //        linkView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
 //        linkView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 30).isActive = true
         
-        label.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 20).isActive = true
-        label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+//        label.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 20).isActive = true
+       
         
         date.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         date.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
@@ -92,9 +126,26 @@ class CopyItemCell: UICollectionViewCell{
         threeDotsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         threeDotsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         
-        imageArea.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        label.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
+        label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+//        linkView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+//        linkView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+//        linkView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+//        linkView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        
+//        containerLinkView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        containerLinkView.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
+        containerLinkView.heightAnchor.constraint(equalToConstant: contentView.frame.height * 0.5).isActive = true
+//        containerLinkView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        containerLinkView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        containerLinkView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+//
+        
+        imageArea.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         imageArea.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        imageArea.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        imageArea.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imageArea.widthAnchor.constraint(equalToConstant: contentView.frame.width * 0.5).isActive = true
+        imageArea.heightAnchor.constraint(equalToConstant: contentView.frame.height * 0.5).isActive = true
     }
 }
