@@ -14,8 +14,8 @@ import LinkPresentation
 class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    let pasteboard = UIPasteboard.general
     
+//    let pasteboard = UIPasteboard.general
 //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var copyItemsPresenter: CopyItemsPresenter?
@@ -29,6 +29,10 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        hasRefresh = false
+        
+        saveCopyNotification = true
         
         MainCoordinator.shared.toggleNavBarDisplay(hidden: false)
         
@@ -47,20 +51,12 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        addNotification()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeNotification()
-    }
-    
     //MARK:- Initialize Views and Presenter
     func initializePresenter(){
         copyItemsPresenter = CopyItemsPresenter(delegate: self)
+        
         copyItemsPresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
         copyItemsPresenter?.getCopyItems(type: nil)
     }
     
@@ -82,80 +78,52 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         view.addSubview(collecionView)
     }
     
-    //MARK:- Copy Update Notifications
-    func addNotification(){
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePasteBoard), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    func removeNotification(){
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    @objc func updatePasteBoard(notification: Notification){
+    override func updatePasteBoardData(){
         //determine type of data to save
         var newCopyItem : CopyItemDTO
-        var type: CopyItemType?
-        var content : Data?
+//        var type: CopyItemType?
+//        var content : Data?
         
-        if pasteboard.hasStrings || pasteboard.hasURLs{
-            
-            //decode string
-            //String(decoding: data, as: UTF8.self)
-            
-            //URL and string are stored in pasteboard.string
-            guard let saveString = pasteboard.string else{
+        let pasteboardManager = PasteBoardManager.shared
+        
+        let mPasteBoard = pasteboardManager.mPasteBoard
+                
+        if mPasteBoard.changeCount > pasteboardManager.currentChangeCount {
+            pasteboardManager.updateChangeCount()
+        
+            guard let presenter = copyItemsPresenter else{
                 return
             }
             
-            if saveString.starts(with: "http"){
-                type = CopyItemType.url
-            }else{
-                type = CopyItemType.text
-            }
-            content = Data(saveString.utf8)
-             
-        }else if pasteboard.hasImages{
+            let (type, content) = presenter.prepareDataToSave(pasteboard: mPasteBoard)
             
-            //save Image
-            type = CopyItemType.image
-            guard let saveImage = pasteboard.image, let mData = saveImage.pngData() else{
-                return
-            }
-            content = mData
+            let mDate = Date()
             
-        }else if pasteboard.hasColors{
+            //save data
+            newCopyItem = CopyItemDTO(
+                color: "systemBlue",
+                content: content,
+                dateCreated: mDate,
+                dateUpdated: mDate,
+                folderId: UUID(),
+                id: UUID(),
+                keyId: UUID(),
+                title: "test_title",
+                type: type)
             
-            type = CopyItemType.color
-            guard let saveColor = pasteboard.color, let colorData = saveColor.encode() else{
-                return
-            }
-            content = colorData
-            
+            //save
+            presenter.save(newCopyItem, completion: { [weak self]success in
+                guard let saveSuccess = success, let strongSelf = self else {
+                    return
+                }
+                if saveSuccess == true {
+                    if let newData = strongSelf.copyItemsPresenter?.getDataItems(nil) {
+                        strongSelf.refreshingg = true
+                        strongSelf.updateCollectionView(newData, "new")
+                    }
+                }
+            })
         }
-        
-        let mDate = Date()
-        //save data
-        newCopyItem = CopyItemDTO(
-            color: "systemBlue",
-            content: content,
-            dateCreated: mDate,
-            dateUpdated: mDate,
-            folderId: UUID(),
-            id: UUID(),
-            keyId: UUID(),
-            title: "test_title",
-            type: type)
-        
-        //in another fucntion, get all saved notes and display
-        
-        //save
-        copyItemsPresenter?.save(newCopyItem)
-        
-        
-        print(pasteboard.strings)
-        print(pasteboard.images)
-        print(pasteboard.urls)
-        print(pasteboard.colors)
     }
     
     private func setUpSearchBar() {
@@ -203,11 +171,6 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     }
     
     override func getData(array: [Any]) -> [CopyItem] {
-//        guard let presenter = homePresenter else {
-//            return []
-//        }
-//        return presenter.getDataItems(nil)
-        
         if let mArray = array as? [CopyItem] {
             return mArray
         }
@@ -235,7 +198,9 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         if let itemDate = data.dateCreated {
             let dateFormatterPrint = DateFormatter()
             dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-            cell.date.text = dateFormatterPrint.string(from: itemDate)
+//            cell.date.text = dateFormatterPrint.string(from: itemDate)
+            cell.date.text = itemDate.timeAgoSinceDate()
+            cell.date.font = AppFonts.smallLabelText
         }
         
         switch mType{
@@ -247,7 +212,6 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
                 cell.imageArea.image = UIImage(data: data.content!)
                 break
             case .text, .url:
-                print(mType)
                 
                 if mType == .url {
                     cell.show(view: cell.containerLinkView)
@@ -311,6 +275,13 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     override func selectItem(_ dataSet: CopyItem, _ position: Int) {
         print(position)
+        
+        let nextVC = DetailsViewController(copyItem: dataSet, sendingInfo: (self, position))
+        MainCoordinator.shared.presentVC(self, nextVC)
+        
+        //TODO:-
+        //push detailt View controller over this.
+        //prepare detailt View Controller Over Here.
     }
     
     override func fetchedDataFromCoreDataDB(data: [CopyItem]) {
@@ -318,12 +289,11 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         updateCollectionView(data, "testKey")
     }
     
-    
-    override func buildContextMenu(for copy: CopyItem) -> UIMenu {
+    override func buildContextMenuForCell(for copy: CopyItem, indexPath: IndexPath) -> UIMenu {
         guard let presenter = copyItemsPresenter else {
             return UIMenu()
         }
-        return presenter.getMenuConfiguration(copy: copy)
+        return presenter.getMenuConfiguration(copy: copy, indexPath: indexPath)
     }
     
     

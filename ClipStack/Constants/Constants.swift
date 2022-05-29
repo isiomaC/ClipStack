@@ -24,6 +24,11 @@ struct UserDefaultkeys {
     static let lastReviewRequestAppVersion = "lastReviewedVersion"
 }
 
+struct BackgroundIds{
+    static let appRefresh = "com.chuck.ClipStack.appRefresh"
+    static let bgCopy = "com.chuck.ClipStack.backgroundCopy"
+}
+
 
 struct AppFonts {
     static let loginLandingText = Font(type: .systemBold, size: .custom(40)).instance
@@ -32,6 +37,8 @@ struct AppFonts {
     static let loginTitle = Font(size: .custom(20)).instance
     static let loginForgotPwd = Font(type: .systemBold, size: .custom(16.0)).instance
     
+    
+    static let smallLabelText = Font(type: .system, size: .custom(14.0)).instance
     static let labelText = Font(type: .system, size: .custom(16.0)).instance
     
     static let buttonFont = Font(type: .system, size: .custom(16.0)).instance

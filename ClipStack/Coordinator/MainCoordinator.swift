@@ -56,9 +56,22 @@ class MainCoordinator: Coordinator {
     }
     
     // MARK: Presentation Functions
-    func presentVC(_ currentVC: CoordinatingDelegate, _ nextVC: CoordinatingDelegate) {
+    func presentVC(_ currentVC: CoordinatingDelegate, _ nextVC: CoordinatingDelegate, presentation: UIModalPresentationStyle = .automatic) {
         children?.append(currentVC)
+        
+        let index = children?.firstIndex(where: { child in
+            let castedChild = child as! CoordinatingDelegate
+            
+            return castedChild.isEqual(currentVC)
+        })
+        
+        if let i = index{
+            children?.remove(at: i)
+            children?.append(currentVC)
+        }
+            
         currentChild = currentVC
+        currentVC.modalPresentationStyle = presentation
         currentVC.present(nextVC, animated: true, completion: nil)
     }
     

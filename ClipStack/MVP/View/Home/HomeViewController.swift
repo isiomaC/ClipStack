@@ -7,13 +7,20 @@
 
 import Foundation
 import UIKit
+import JavaScriptCore
 
 
-class HomeViewController: UITableViewController {
-    
+class HomeViewController: BaseViewController  {
+
     var abc : String?
     
     let (defaultOptions, copyItemOptions) = HomeOptionsDTO.getOptions()
+    
+    var homePresenter : HomePresenter?
+    
+    var tableView: UITableView?
+    
+    let stubData = [ HomeOptionsDTO(name: "Collections",  image: UIImage(systemName: "folder.circle.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .medium ))! )]
     
     let cellIdentifier = "menuCell"
     
@@ -21,12 +28,48 @@ class HomeViewController: UITableViewController {
         super.viewDidLoad()
         
         initTableView()
+        initPresenter()
         
-        tableView.register(HomeViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
-        tableView.delegate = self
-        tableView.dataSource = self
         
+    }
+    
+//    func callJavascript(){
+//        let jsSource = "var read = function() { try{  window.navigator.clipboard.readText().then(clip => consoleLog(clip) ).catch(er => consoleLog(er));   }catch(e){ consoleLog(e) } }"
+//
+//        //Initialize
+//        let jsContext = JSContext()
+//        jsContext?.exceptionHandler = { context, exception in
+//            if let ex = exception {
+//                print("JS Exception", ex.toString())
+//            }
+//        }
+//        jsContext?.evaluateScript(jsSource)
+//        //End Initialize
+//
+//
+//        //Console Log : Calling swift from jsContext
+//        let consoleLog: @convention(block) (String) -> Void = { logMessage in
+//            print("\nJS Console: ", logMessage)
+//        }
+//        let consoleLogObject = unsafeBitCast(consoleLog, to: AnyObject.self)
+//        jsContext?.setObject(consoleLogObject, forKeyedSubscript: "consoleLog" as (NSCopying & NSObjectProtocol))
+//
+//        jsContext?.evaluateScript("consoleLog")
+//        //end Console Log
+//
+//        if let copyItemFunc = jsContext?.objectForKeyedSubscript("read") {
+//            if let result = copyItemFunc.call(withArguments: []) {
+//                print(result)
+//            }
+//        }
+//
+//
+//
+//    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,31 +87,65 @@ class HomeViewController: UITableViewController {
     }
     
     private func initTableView() {
-        let frame = CGRect(x: 0, y: UIApplication.shared.statusBarView!.frame.height,
+        let frame = CGRect(x: 0, y: 0,
                            width: Dimensions.screenSize.width, height: Dimensions.screenSize.height)
         
         tableView = UITableView(frame: frame, style: .insetGrouped)
+        tableView?.register(HomeViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+        tableView?.delegate = self
+        tableView?.dataSource = self
+        
+        if let table = tableView {
+            view.addSubview(table)
+        }
+    }
+    
+    private func initPresenter() {
+        homePresenter = HomePresenter(delegate: self)
+        homePresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
 }
 
 
 //Table View Delegate and DataSource Overrides
-extension HomeViewController {
+extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "History" : "Type"
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        var returnVal: String?
+        
+        if section == 0 {
+            returnVal = "History"
+        }else if section == 1{
+            returnVal = "Type"
+        }else if section == 2 {
+            returnVal = "Collections"
+        }
+        
+        return returnVal
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? defaultOptions.count : copyItemOptions.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var returnVal: Int?
+        
+        if section == 0 {
+            returnVal = defaultOptions.count
+        }else if section == 1{
+            returnVal = copyItemOptions.count
+        }else if section == 2 {
+            returnVal = stubData.count
+        }
+        
+        return returnVal!
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
             
@@ -89,10 +166,10 @@ extension HomeViewController {
                     (nextVC as? CopyItemsViewController)?.queryFilter = "Recents"
                     MainCoordinator.shared.pushVC(nextVC)
                     break;
-                case "Collections":
-                    nextVC = CollectionsViewController()
-                    MainCoordinator.shared.pushVC(nextVC)
-                    break;
+//                case "Collections":
+//                    nextVC = CollectionsViewController()
+//                    MainCoordinator.shared.pushVC(nextVC)
+//                    break;
                 default : break;
             }
             
@@ -101,21 +178,38 @@ extension HomeViewController {
             let option = copyItemOptions[indexPath.row]
             
             
+        }else if indexPath.section == 2 {
+            
+            
         }
         print(indexPath.row)
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
-        let item = indexPath.section == 0 ? defaultOptions[indexPath.row] : copyItemOptions[indexPath.row]
-    
-        cell.textLabel?.text = item.name
+        var item: HomeOptionsDTO?
         
-        cell.imageView?.image = item.image
+        if indexPath.section == 0 {
+            item = defaultOptions[indexPath.row]
+        }else if indexPath.section == 1{
+            item = copyItemOptions[indexPath.row]
+        }else if indexPath.section == 2 {
+            print(indexPath.row)
+            print(indexPath.section)
+            item = stubData[indexPath.row]
+        }
+        
+        guard let mItem = item else {
+            return UITableViewCell()
+        }
+    
+        cell.textLabel?.text = mItem.name
+        
+        cell.imageView?.image = mItem.image
 
-        cell.accessoryType = item.accessoryType
+        cell.accessoryType = mItem.accessoryType
 
         return cell
             

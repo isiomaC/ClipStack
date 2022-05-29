@@ -20,6 +20,8 @@ class BaseViewController: PresenterDelegate, Coordinating {
     
     var coordinator: Coordinator?
     
+    var saveCopyNotification: Bool = false
+    
     init(){
         coordinator = (UIApplication.shared.delegate as? AppDelegate)?.coordinator
         super.init(nibName: nil, bundle: nil)
@@ -32,10 +34,40 @@ class BaseViewController: PresenterDelegate, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        view.isHidden = false
+        if saveCopyNotification == true{
+            addNotification()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.isHidden = true
+        if saveCopyNotification == true{
+            removeNotification()
+        }
+    }
+    
+    //MARK:- Copy Update Notifications
+    func addNotification(){
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePasteBoard), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    func removeNotification(){
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc func updatePasteBoard(notification: Notification){
+        updatePasteBoardData()
+    }
+    
+    func updatePasteBoardData(){
+        
+        //override from children
+        print("??Called from Base")
     }
 
 }

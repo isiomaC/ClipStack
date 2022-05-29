@@ -15,15 +15,15 @@ class MetaDataCache {
         
         do {
             guard retrieve(urlString: metadata.url!.absoluteString) == nil else {
-                  return
-                }
+              return
+            }
 
-                // Transform the metadata to a Data object and
-                // set requiringSecureCoding to true
-                let data = try NSKeyedArchiver.archivedData(withRootObject: metadata, requiringSecureCoding: true)
+            // Transform the metadata to a Data object and
+            // set requiringSecureCoding to true
+            let data = try NSKeyedArchiver.archivedData(withRootObject: metadata, requiringSecureCoding: true)
 
-                // Save to user defaults
-                UserDefaults.standard.setValue(data, forKey: metadata.url!.absoluteString)
+            // Save to user defaults
+            UserDefaults.standard.setValue(data, forKey: metadata.url!.absoluteString)
             } catch let error {
                 print("Error when caching: \(error.localizedDescription)")
         }

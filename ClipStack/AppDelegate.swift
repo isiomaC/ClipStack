@@ -7,6 +7,8 @@
 
 import UIKit
 import CoreData
+import BackgroundTasks
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,9 +19,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         startApp()
+        
+        cancelAllPandingBGTask()
+        registerBackGroundTasks()
+        
+        let _ = PasteBoardManager.shared //initialize pasteboard changeCount
+        
         return true
     }
 
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        
+        cancelAllPandingBGTask()
+        
+//        scheduleTask(taskId: BackgroundIds.appRefresh)
+        scheduleTask(taskId: BackgroundIds.bgCopy)
+        
+    }
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
@@ -61,6 +77,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    func saveContext (completion: @escaping (Result<Bool, NSError>) -> Void) {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+                completion(.success(true))
+            } catch {
+                let nserror = error as NSError
+                completion(.failure(nserror))
             }
         }
     }
@@ -109,3 +138,109 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+//Background tasks
+extension AppDelegate {
+    
+    private func registerBackGroundTasks(){
+        
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: BackgroundIds.bgCopy, using: nil) {
+            task in
+             self.handleBackgroundCopy(task: task as! BGProcessingTask)
+        }
+        
+//        BGTaskScheduler.shared.register(forTaskWithIdentifier: BackgroundIds.appRefresh, using: nil) { task in
+//             self.handleAppRefresh(task: task as! BGAppRefreshTask)
+//        }
+    }
+    
+    private func cancelAllPandingBGTask() {
+        BGTaskScheduler.shared.cancelAllTaskRequests()
+    }
+    
+    private func handleAppRefresh(task : BGAppRefreshTask){
+        
+        //schedule another app refresh
+        scheduleTask(taskId: BackgroundIds.appRefresh)
+        
+        // Create an operation that performs the main part of the background task.
+        
+
+        // Provide the background task with an expiration handler that cancels the operation.
+        task.expirationHandler = {
+            task.setTaskCompleted(success: false)
+        }
+
+        task.setTaskCompleted(success: true)
+    }
+    
+    private func handleBackgroundCopy(task: BGProcessingTask){
+        scheduleTask(taskId: BackgroundIds.bgCopy)
+        
+        let pasteBoardManager = PasteBoardManager.shared
+        
+        let pasteboard = pasteBoardManager.mPasteBoard
+        
+        if pasteboard.changeCount > pasteBoardManager.currentChangeCount{
+            
+            let presenter = CopyItemsPresenter()
+            
+            let (type, content) = presenter.prepareDataToSave(pasteboard: pasteboard)
+            
+            let mDate = Date()
+            
+            //save data
+            let newCopyItem = CopyItemDTO(
+                color: "systemBlue",
+                content: content,
+                dateCreated: mDate,
+                dateUpdated: mDate,
+                folderId: UUID(),
+                id: UUID(),
+                keyId: UUID(),
+                title: "test_title",
+                type: type)
+            
+            presenter.save(newCopyItem) { [weak self] success in
+                guard let saveSuccess = success, let _ = self else{
+                    return
+                }
+                if saveSuccess {
+                    print("Save Success")
+                }
+            }
+        }
+        
+        task.expirationHandler =  { () in
+            task.setTaskCompleted(success: false)
+        }
+       
+        task.setTaskCompleted(success: true)
+    }
+    
+    
+    //MARK: - Schedule Tasks
+    func scheduleTask(taskId: String){
+       
+        var request: BGProcessingTaskRequest?
+        
+        if taskId == BackgroundIds.bgCopy{
+            request = BGProcessingTaskRequest(identifier: taskId)
+            request?.earliestBeginDate = Date(timeIntervalSinceNow: 2 * 60)
+            (request)?.requiresNetworkConnectivity = false
+            (request)?.requiresExternalPower = false
+        }
+        
+             
+        do {
+            
+            if(taskId == BackgroundIds.bgCopy){
+                try BGTaskScheduler.shared.submit(request!)
+            }
+           
+        } catch {
+           print("Could not schedule app refresh: \(error)")
+        }
+    }
+    
+}

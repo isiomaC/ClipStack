@@ -177,7 +177,11 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let condif =  UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] elements in
-            return self?.buildContextMenu(for: (self?.dataSet[indexPath.row])!)
+            
+            guard let strongSelf = self else {
+                return nil
+            }
+            return strongSelf.buildContextMenuForCell(for: (strongSelf.dataSet[indexPath.row]), indexPath: indexPath)
         }
         
         return condif
@@ -205,7 +209,7 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         
     }
     
-    func buildContextMenu(for: DataItem) -> UIMenu {
+    func buildContextMenuForCell(for: DataItem, indexPath: IndexPath) -> UIMenu {
         let copy = UIAction(title: "Copy", image: UIImage(systemName: "")) { action in
             //perform action here
         }

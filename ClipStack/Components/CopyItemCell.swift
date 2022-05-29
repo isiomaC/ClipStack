@@ -12,16 +12,16 @@ import LinkPresentation
 
 class CopyItemCell: UICollectionViewCell{
     
-    let labelOpts = LabelOptions(text: "Demo Text", color: .label, fontStyle: AppFonts.labelText)
+    let labelOpts = LabelOptions(text: "", color: .label, fontStyle: AppFonts.labelText)
     lazy var label = ViewGenerator.getLabel(labelOpts, LabelInsets(0, 0, 0, 0))
     
-    let dateOptions = LabelOptions(text: "Demo Text", color: .label, fontStyle: AppFonts.labelText)
+    let dateOptions = LabelOptions(text: "", color: .label, fontStyle: AppFonts.labelText)
     lazy var date = ViewGenerator.getLabel(dateOptions, LabelInsets(0, 0, 0, 0))
     
     let imageOptions = ImageViewOptions(image: nil, size: (width: 100, height: 100))
     lazy var imageArea = ViewGenerator.getImageView(imageOptions)
     
-    let btnOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "square.grid.4x3.fill"), smiley: nil)
+    let btnOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
     lazy var threeDotsButton = ViewGenerator.getButton(btnOptions, circular: true)
     
     
@@ -33,7 +33,6 @@ class CopyItemCell: UICollectionViewCell{
     
     var linkView = LPLinkView(metadata: LPLinkMetadata())
     lazy var textContentView = ViewGenerator.getLabel(labelOpts, LabelInsets(0, 0, 0, 0))
-//    lazy var imageView = ViewGenerator.getRoundedImageView(imageViewProps)
     
     let bgImageOpts = ImageViewOptions(
         image: UIImage(named: "fb"),

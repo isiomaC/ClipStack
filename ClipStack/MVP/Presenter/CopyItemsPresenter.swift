@@ -16,29 +16,82 @@ class CopyItemsPresenter: BasePresenter {
     
     var context: NSManagedObjectContext?
     
-    override init(delegate: PresenterDelegate) {
-        super.init(delegate: delegate)
+//    private func save(){
+//        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+//    }
+    
+    func prepareDataToSave(pasteboard: UIPasteboard) -> (CopyItemType?, Data?){
+        
+        var type: CopyItemType?
+        var content: Data?
+        
+        if pasteboard.hasStrings || pasteboard.hasURLs{
+
+            //decode string
+            //String(decoding: data, as: UTF8.self)
+
+            //URL and string are stored in pasteboard.string
+            guard let saveString = pasteboard.string else{
+              return (nil, nil)
+            }
+
+            if saveString.starts(with: "http"){
+              type = CopyItemType.url
+            }else{
+              type = CopyItemType.text
+            }
+            content = Data(saveString.utf8)
+
+        }else if pasteboard.hasImages{
+
+            //save Image
+            type = CopyItemType.image
+            guard let saveImage = pasteboard.image, let mData = saveImage.pngData() else{
+              return (nil, nil)
+            }
+            content = mData
+
+        }else if pasteboard.hasColors{
+
+            type = CopyItemType.color
+            guard let saveColor = pasteboard.color, let colorData = saveColor.encode() else{
+              return (nil, nil)
+            }
+            content = colorData
+        }
+        
+        return (type, content)
     }
     
-    func save(_ copyItemDTO: CopyItemDTO){
+    func save(_ copyItemDTO: CopyItemDTO?, completion: @escaping (Bool?) -> Void ){
+        
         guard let mContext = context else {
             return
         }
-        do{
+        
+        if let copyItem = copyItemDTO {
             let newCopyItem = CopyItem(context: mContext)
-            newCopyItem.color = copyItemDTO.color
-            newCopyItem.title = copyItemDTO.title
-            newCopyItem.content = copyItemDTO.content
-            newCopyItem.dateCreated = copyItemDTO.dateCreated
-            newCopyItem.dateUpdated = copyItemDTO.dateUpdated
-            newCopyItem.type = copyItemDTO.type?.rawValue
-            newCopyItem.keyId = copyItemDTO.keyId
-            newCopyItem.folderId = copyItemDTO.folderId
-            newCopyItem.id = copyItemDTO.id
-            
-            try context?.save()
-        }catch {
-            print("An error occured while saving the data: \(error)")
+            newCopyItem.color = copyItem.color
+            newCopyItem.title = copyItem.title
+            newCopyItem.content = copyItem.content
+            newCopyItem.dateCreated = copyItem.dateCreated
+            newCopyItem.dateUpdated = copyItem.dateUpdated
+            newCopyItem.type = copyItem.type?.rawValue
+            newCopyItem.keyId = copyItem.keyId
+            newCopyItem.folderId = copyItem.folderId
+            newCopyItem.id = copyItem.id
+        }
+        
+        (UIApplication.shared.delegate as! AppDelegate).saveContext { result in
+            switch result{
+                case .success(let saveComplete):
+                    completion(saveComplete)
+                    break;
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion(false)
+                    break;
+            }
         }
     }
     
@@ -56,7 +109,10 @@ class CopyItemsPresenter: BasePresenter {
             }
                     
             let request : NSFetchRequest<CopyItem> =  CopyItem.fetchRequest()
+            let query : NSSortDescriptor = NSSortDescriptor(key: "dateUpdated", ascending: false)
                    
+            request.sortDescriptors = [query]
+            
             do{
                 copyItems = try mContext.fetch(request)
             }catch{
@@ -68,7 +124,6 @@ class CopyItemsPresenter: BasePresenter {
     }
     
     override func getCopyItems(type: CopyItemType?) {
-        //Perform operation here then pass to delegate function
         
         let data = getDataItems(type)
         
@@ -112,96 +167,38 @@ extension CopyItemsPresenter {
     }
         
     
-    func getMenuConfiguration(copy: CopyItem) -> UIMenu {
+    func getMenuConfiguration(copy: CopyItem, indexPath: IndexPath) -> UIMenu {
         let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "")) { [weak self] action in
             
-            guard let controller = self?.delegate as? CopyItemsViewController else {
-                return
-            }
-            
-            let mType = CopyItemType.init(rawValue: copy.type!)
-
-            switch mType{
-                case .text:
-                    if let text = String(data: copy.content!, encoding: .utf8){
-                        controller.pasteboard.string = text
-                    }
-                    break;
-                case .url:
-                    if let strng = String(data: copy.content!, encoding: .utf8){
-                        controller.pasteboard.string = strng
-                        controller.pasteboard.url = URL(string: strng)
-                    }
-                    break;
-                case .image:
-                    if let img = UIImage(data: copy.content!){
-                        controller.pasteboard.image = img
-                    }
-                    break;
-                case .color:
-                    if let color = UIColor.color(data: copy.content!){
-                        controller.pasteboard.color = color
-                    }
-                    break;
-                default : break;
-            }
+            self?.copyItemToClipboard(copy: copy)
         }
         
         let shareAction = UIAction(title: "Share", image: UIImage(systemName: "")) { [weak self] action in
-            //trigger shareSheet
            
             guard let controller = self?.delegate as? CopyItemsViewController else {
                 return
             }
             
-            let itemToShare = self?.resolveCopyItemType(copyItem: copy)
-           
-            let sheet = UIActivityViewController(activityItems: [itemToShare as Any], applicationActivities: nil)
-            
-            controller.present(sheet, animated: true, completion: nil)
-            
+            self?.shareCopyItem(controller: controller, copyItem: copy)
         }
         
-        let deleteAction =  UIAction(title: "Delete", image: UIImage(systemName: "")) { [weak self] action in
+        let deleteAction =  UIAction(title: "Delete", image: UIImage(systemName: ""), attributes: .destructive) { [weak self] action in
             
-            //delete copyItem, Update CollectionView
-           
+            self?.context?.delete(copy)
             
+            let copyItemsViewController = self?.delegate as? CopyItemsViewController
+            
+            copyItemsViewController?.remove(position: indexPath.row)
+            
+            let hapticFeedback = UINotificationFeedbackGenerator()
+            hapticFeedback.notificationOccurred(.success)
+            
+            self?.save()
             
         }
         
         return UIMenu(title: "", children: [copyAction, shareAction, deleteAction])
     }
     
-    private func resolveCopyItemType(copyItem: CopyItem) -> AnyObject?{
-        let mType = CopyItemType.init(rawValue: copyItem.type!)
-        
-        var returnType: AnyObject?
-        
-        switch mType {
-            case .text:
-                if let text = String(data: copyItem.content!, encoding: .utf8){
-                    returnType = text as AnyObject
-                }
-                break;
-            case .url:
-                if let strng = String(data: copyItem.content!, encoding: .utf8){
-                    returnType = URL(string: strng) as AnyObject
-                }
-                break;
-            case .image:
-                if let img = UIImage(data: copyItem.content!){
-                    returnType = img as AnyObject
-                }
-                break;
-            case .color:
-                if let color = UIColor.color(data: copyItem.content!){
-                    returnType = color as AnyObject
-                }
-                break;
-            default : break;
-        }
-        
-        return returnType
-    }
+    
 }

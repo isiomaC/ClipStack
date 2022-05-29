@@ -25,8 +25,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBarHeight = tabBar.frame.height
        
         self.tabBar.isTranslucent = false
-        tabBar.barTintColor = .systemBlue
-        tabBar.unselectedItemTintColor = .white
+//        tabBar.barTintColor = .systemBlue
+        tabBar.unselectedItemTintColor = .systemGray3
         tabBar.tintColor = .systemGray
         
         // Home View Controller Start Up

@@ -15,10 +15,6 @@ class HomePresenter : BasePresenter {
     
     var context: NSManagedObjectContext?
     
-    override init(delegate: PresenterDelegate) {
-        super.init(delegate: delegate)
-    }
-    
     func save(_ copyItemDTO: CopyItemDTO){
         guard let mContext = context else {
             return

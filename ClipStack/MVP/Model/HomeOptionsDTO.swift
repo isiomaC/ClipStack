@@ -25,17 +25,20 @@ struct HomeOptionsDTO {
     
     static func getOptions() -> ([HomeOptionsDTO], [HomeOptionsDTO]) {
         
+        let iconCOnfiguration = UIImage.SymbolConfiguration(scale: .medium )
+        
         let defaultOptions: [HomeOptionsDTO] = [
-            HomeOptionsDTO(name: "All", image: UIImage(systemName: "book")! ),
-            HomeOptionsDTO(name: "Recents",  image: UIImage(systemName: "book")! ),
-            HomeOptionsDTO(name: "Collections",  image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: "All", image: UIImage(systemName: "app.fill", withConfiguration: iconCOnfiguration)! ),
+            HomeOptionsDTO(name: "Recents",  image: UIImage(systemName: "clock.arrow.circlepath", withConfiguration: iconCOnfiguration)! ),
         ]
         
         let copyItemOptions: [HomeOptionsDTO] = [
-            HomeOptionsDTO(name: CopyItemType.text.rawValue.capitalizingFirstLetter(), image: UIImage(systemName: "book")! ),
-            HomeOptionsDTO(name: CopyItemType.image.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
-            HomeOptionsDTO(name: CopyItemType.url.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
-            HomeOptionsDTO(name: CopyItemType.color.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "book")! ),
+            HomeOptionsDTO(name: CopyItemType.text.rawValue.capitalizingFirstLetter(), image: UIImage(systemName: "captions.bubble.fill", withConfiguration: iconCOnfiguration)!),
+            
+            
+            HomeOptionsDTO(name: CopyItemType.image.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
+            HomeOptionsDTO(name: CopyItemType.url.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "network", withConfiguration: iconCOnfiguration)! ),
+            HomeOptionsDTO(name: CopyItemType.color.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "capsule.fill", withConfiguration: iconCOnfiguration)! ),
         ]
         
         return (defaultOptions, copyItemOptions)
