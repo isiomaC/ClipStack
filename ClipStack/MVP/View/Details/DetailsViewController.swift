@@ -92,7 +92,6 @@ class DetailsViewController : BaseViewController {
 
 extension DetailsViewController{
     @objc func closeViewController(){
-        print("cloicked")
         dismiss(animated: true, completion: nil)
     }
     

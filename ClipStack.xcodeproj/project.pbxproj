@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		131078DB283DA82C00997F3B /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131078DA283DA82C00997F3B /* DetailPresenter.swift */; };
+		134151332844C8E100F1ECFC /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134151322844C8E100F1ECFC /* SettingsPresenter.swift */; };
+		134151352844C93100F1ECFC /* SettingsOptionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134151342844C93100F1ECFC /* SettingsOptionDTO.swift */; };
 		135D68B4282535FF000A925A /* PasteBoardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135D68B3282535FF000A925A /* PasteBoardManager.swift */; };
 		137B0DC92806469400C854F3 /* CopyItemsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */; };
 		137B0DCC28064ABC00C854F3 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */; };
@@ -41,6 +43,16 @@
 		13A3D72E27DDD10400423A32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D72D27DDD10400423A32 /* Extensions.swift */; };
 		13AA5EAB27DF19DB00DB6B0D /* CopyItemHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */; };
 		13DDE39B2808DE4C00C4AB07 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DDE39A2808DE4C00C4AB07 /* DetailView.swift */; };
+		13EBD286284C8F190081E6F8 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EBD285284C8F190081E6F8 /* WidgetKit.framework */; };
+		13EBD288284C8F190081E6F8 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EBD287284C8F190081E6F8 /* SwiftUI.framework */; };
+		13EBD28B284C8F190081E6F8 /* ClipStackWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EBD28A284C8F190081E6F8 /* ClipStackWidget.swift */; };
+		13EBD28D284C8F1D0081E6F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13EBD28C284C8F1D0081E6F8 /* Assets.xcassets */; };
+		13EBD291284C8F1D0081E6F8 /* ClipStackWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 13EBD283284C8F190081E6F8 /* ClipStackWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		13EBD29A284DF8020081E6F8 /* WidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EBD298284DF7FB0081E6F8 /* WidgetContent.swift */; };
+		13EBD29F284E42150081E6F8 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D70727DD140D00423A32 /* Enums.swift */; };
+		13EBD2A228517AC00081E6F8 /* PasteBoardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135D68B3282535FF000A925A /* PasteBoardManager.swift */; };
+		13EBD2A328517C6A0081E6F8 /* WidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EBD298284DF7FB0081E6F8 /* WidgetContent.swift */; };
+		13EBD2A528517D270081E6F8 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EBD2A428517D270081E6F8 /* Helper.swift */; };
 		13F512A127FAF04700A49C55 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A027FAF04700A49C55 /* SettingsViewController.swift */; };
 		13F512A327FAF06D00A49C55 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A227FAF06D00A49C55 /* SettingsView.swift */; };
 		13F512A527FAF07600A49C55 /* CopyItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F512A427FAF07600A49C55 /* CopyItemsView.swift */; };
@@ -68,10 +80,33 @@
 			remoteGlobalIDString = 13A3D6C527DD134B00423A32;
 			remoteInfo = ClipStack;
 		};
+		13EBD28F284C8F1D0081E6F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13A3D6BE27DD134B00423A32 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13EBD282284C8F190081E6F8;
+			remoteInfo = ClipStackWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		13EBD292284C8F1D0081E6F8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				13EBD291284C8F1D0081E6F8 /* ClipStackWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		131078DA283DA82C00997F3B /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		134151322844C8E100F1ECFC /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		134151342844C93100F1ECFC /* SettingsOptionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionDTO.swift; sourceTree = "<group>"; };
 		135D68B3282535FF000A925A /* PasteBoardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteBoardManager.swift; sourceTree = "<group>"; };
 		137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemsPresenter.swift; sourceTree = "<group>"; };
 		137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +146,16 @@
 		13A3D72D27DDD10400423A32 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemHeaderCell.swift; sourceTree = "<group>"; };
 		13DDE39A2808DE4C00C4AB07 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		13EBD283284C8F190081E6F8 /* ClipStackWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipStackWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		13EBD285284C8F190081E6F8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		13EBD287284C8F190081E6F8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		13EBD28A284C8F190081E6F8 /* ClipStackWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipStackWidget.swift; sourceTree = "<group>"; };
+		13EBD28C284C8F1D0081E6F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		13EBD28E284C8F1D0081E6F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13EBD298284DF7FB0081E6F8 /* WidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetContent.swift; sourceTree = "<group>"; };
+		13EBD2A0284E48720081E6F8 /* ClipStack.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipStack.entitlements; sourceTree = "<group>"; };
+		13EBD2A1284E498D0081E6F8 /* ClipStackWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipStackWidgetExtension.entitlements; sourceTree = "<group>"; };
+		13EBD2A428517D270081E6F8 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		13F512A027FAF04700A49C55 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		13F512A227FAF06D00A49C55 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		13F512A427FAF07600A49C55 /* CopyItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemsView.swift; sourceTree = "<group>"; };
@@ -145,6 +190,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		13EBD280284C8F190081E6F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13EBD288284C8F190081E6F8 /* SwiftUI.framework in Frameworks */,
+				13EBD286284C8F190081E6F8 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -160,9 +214,12 @@
 		13A3D6BD27DD134B00423A32 = {
 			isa = PBXGroup;
 			children = (
+				13EBD2A1284E498D0081E6F8 /* ClipStackWidgetExtension.entitlements */,
 				13A3D6C827DD134B00423A32 /* ClipStack */,
 				13A3D6E227DD135000423A32 /* ClipStackTests */,
 				13A3D6ED27DD135000423A32 /* ClipStackUITests */,
+				13EBD289284C8F190081E6F8 /* ClipStackWidget */,
+				13EBD284284C8F190081E6F8 /* Frameworks */,
 				13A3D6C727DD134B00423A32 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -173,6 +230,7 @@
 				13A3D6C627DD134B00423A32 /* ClipStack.app */,
 				13A3D6DF27DD135000423A32 /* ClipStackTests.xctest */,
 				13A3D6EA27DD135000423A32 /* ClipStackUITests.xctest */,
+				13EBD283284C8F190081E6F8 /* ClipStackWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,6 +238,7 @@
 		13A3D6C827DD134B00423A32 /* ClipStack */ = {
 			isa = PBXGroup;
 			children = (
+				13EBD2A0284E48720081E6F8 /* ClipStack.entitlements */,
 				13A3D70227DD13BC00423A32 /* Constants */,
 				13A3D70427DD13DE00423A32 /* Utils */,
 				13A3D71827DD177100423A32 /* Components */,
@@ -270,6 +329,7 @@
 			children = (
 				13A3D71627DD16EA00423A32 /* CopyItemDTO.swift */,
 				13F512B127FD0EB400A49C55 /* HomeOptionsDTO.swift */,
+				134151342844C93100F1ECFC /* SettingsOptionDTO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,6 +354,7 @@
 				13A3D71B27DD186100423A32 /* HomePresenter.swift */,
 				137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */,
 				131078DA283DA82C00997F3B /* DetailPresenter.swift */,
+				134151322844C8E100F1ECFC /* SettingsPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -328,6 +389,27 @@
 				13F512B327FFA68B00A49C55 /* ImageCopyItemCell.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		13EBD284284C8F190081E6F8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13EBD285284C8F190081E6F8 /* WidgetKit.framework */,
+				13EBD287284C8F190081E6F8 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		13EBD289284C8F190081E6F8 /* ClipStackWidget */ = {
+			isa = PBXGroup;
+			children = (
+				13EBD28A284C8F190081E6F8 /* ClipStackWidget.swift */,
+				13EBD298284DF7FB0081E6F8 /* WidgetContent.swift */,
+				13EBD28C284C8F1D0081E6F8 /* Assets.xcassets */,
+				13EBD28E284C8F1D0081E6F8 /* Info.plist */,
+				13EBD2A428517D270081E6F8 /* Helper.swift */,
+			);
+			path = ClipStackWidget;
 			sourceTree = "<group>";
 		};
 		13F5129C27FAEFCE00A49C55 /* Settings */ = {
@@ -366,10 +448,12 @@
 				13A3D6C227DD134B00423A32 /* Sources */,
 				13A3D6C327DD134B00423A32 /* Frameworks */,
 				13A3D6C427DD134B00423A32 /* Resources */,
+				13EBD292284C8F1D0081E6F8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				13EBD290284C8F1D0081E6F8 /* PBXTargetDependency */,
 			);
 			name = ClipStack;
 			productName = ClipStack;
@@ -412,13 +496,30 @@
 			productReference = 13A3D6EA27DD135000423A32 /* ClipStackUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		13EBD282284C8F190081E6F8 /* ClipStackWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13EBD295284C8F1D0081E6F8 /* Build configuration list for PBXNativeTarget "ClipStackWidgetExtension" */;
+			buildPhases = (
+				13EBD27F284C8F190081E6F8 /* Sources */,
+				13EBD280284C8F190081E6F8 /* Frameworks */,
+				13EBD281284C8F190081E6F8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClipStackWidgetExtension;
+			productName = ClipStackWidgetExtension;
+			productReference = 13EBD283284C8F190081E6F8 /* ClipStackWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		13A3D6BE27DD134B00423A32 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					13A3D6C527DD134B00423A32 = {
@@ -431,6 +532,9 @@
 					13A3D6E927DD135000423A32 = {
 						CreatedOnToolsVersion = 12.5.1;
 						TestTargetID = 13A3D6C527DD134B00423A32;
+					};
+					13EBD282284C8F190081E6F8 = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
@@ -450,6 +554,7 @@
 				13A3D6C527DD134B00423A32 /* ClipStack */,
 				13A3D6DE27DD135000423A32 /* ClipStackTests */,
 				13A3D6E927DD135000423A32 /* ClipStackUITests */,
+				13EBD282284C8F190081E6F8 /* ClipStackWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -479,6 +584,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		13EBD281284C8F190081E6F8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13EBD28D284C8F1D0081E6F8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -496,6 +609,7 @@
 				13F512B227FD0EB400A49C55 /* HomeOptionsDTO.swift in Sources */,
 				13A3D71C27DD186100423A32 /* HomePresenter.swift in Sources */,
 				13A3D70027DD13A100423A32 /* MainCoordinator.swift in Sources */,
+				134151352844C93100F1ECFC /* SettingsOptionDTO.swift in Sources */,
 				13F512A927FC6C5500A49C55 /* TabBarController.swift in Sources */,
 				137B0DCE28064E0C00C854F3 /* MetaDataCache.swift in Sources */,
 				13F512A127FAF04700A49C55 /* SettingsViewController.swift in Sources */,
@@ -505,6 +619,7 @@
 				13A3D72E27DDD10400423A32 /* Extensions.swift in Sources */,
 				13A3D6FF27DD13A100423A32 /* Coordinator.swift in Sources */,
 				13A3D70627DD140300423A32 /* Constants.swift in Sources */,
+				134151332844C8E100F1ECFC /* SettingsPresenter.swift in Sources */,
 				13A3D72427DD4D6200423A32 /* ViewOptions.swift in Sources */,
 				13A3D70E27DD144600423A32 /* BaseViewController.swift in Sources */,
 				13A3D72A27DD4E4500423A32 /* HomeView.swift in Sources */,
@@ -514,9 +629,11 @@
 				13F512B027FD08D900A49C55 /* CollectionsViewController.swift in Sources */,
 				13DDE39B2808DE4C00C4AB07 /* DetailView.swift in Sources */,
 				13A3D71227DD14D400423A32 /* CopyItemsViewController.swift in Sources */,
+				13EBD2A528517D270081E6F8 /* Helper.swift in Sources */,
 				13A3D6CA27DD134B00423A32 /* AppDelegate.swift in Sources */,
 				13A3D70827DD140D00423A32 /* Enums.swift in Sources */,
 				13A3D72627DD4DBE00423A32 /* TextFieldPasteDisabled.swift in Sources */,
+				13EBD2A328517C6A0081E6F8 /* WidgetContent.swift in Sources */,
 				135D68B4282535FF000A925A /* PasteBoardManager.swift in Sources */,
 				13A3D72C27DD4E5A00423A32 /* _BaseView.swift in Sources */,
 				13A3D72227DD4D4C00423A32 /* Reachability.swift in Sources */,
@@ -544,6 +661,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		13EBD27F284C8F190081E6F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13EBD28B284C8F190081E6F8 /* ClipStackWidget.swift in Sources */,
+				13EBD29F284E42150081E6F8 /* Enums.swift in Sources */,
+				13EBD2A228517AC00081E6F8 /* PasteBoardManager.swift in Sources */,
+				13EBD29A284DF8020081E6F8 /* WidgetContent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -556,6 +684,11 @@
 			isa = PBXTargetDependency;
 			target = 13A3D6C527DD134B00423A32 /* ClipStack */;
 			targetProxy = 13A3D6EB27DD135000423A32 /* PBXContainerItemProxy */;
+		};
+		13EBD290284C8F1D0081E6F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13EBD282284C8F190081E6F8 /* ClipStackWidgetExtension */;
+			targetProxy = 13EBD28F284C8F1D0081E6F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -698,8 +831,10 @@
 		13A3D6F427DD135100423A32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipStack/ClipStack.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F7QY8Q547Z;
 				INFOPLIST_FILE = ClipStack/Info.plist;
@@ -717,8 +852,10 @@
 		13A3D6F527DD135100423A32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipStack/ClipStack.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F7QY8Q547Z;
 				INFOPLIST_FILE = ClipStack/Info.plist;
@@ -817,6 +954,66 @@
 			};
 			name = Release;
 		};
+		13EBD293284C8F1D0081E6F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = ClipStackWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F7QY8Q547Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClipStackWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipStackWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chuck.ClipStack.ClipStackWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		13EBD294284C8F1D0081E6F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = ClipStackWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F7QY8Q547Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClipStackWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipStackWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chuck.ClipStack.ClipStackWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -852,6 +1049,15 @@
 			buildConfigurations = (
 				13A3D6FA27DD135100423A32 /* Debug */,
 				13A3D6FB27DD135100423A32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		13EBD295284C8F1D0081E6F8 /* Build configuration list for PBXNativeTarget "ClipStackWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13EBD293284C8F1D0081E6F8 /* Debug */,
+				13EBD294284C8F1D0081E6F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

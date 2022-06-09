@@ -13,7 +13,7 @@ class HomePresenter : BasePresenter {
     
     var copyItems: [CopyItem]?
     
-    var context: NSManagedObjectContext?
+//    var context: NSManagedObjectContext?
     
     func save(_ copyItemDTO: CopyItemDTO){
         guard let mContext = context else {

@@ -30,10 +30,9 @@ class HomeViewController: BaseViewController  {
         initTableView()
         initPresenter()
         
-        
-        
     }
     
+    //MARK: Testing
 //    func callJavascript(){
 //        let jsSource = "var read = function() { try{  window.navigator.clipboard.readText().then(clip => consoleLog(clip) ).catch(er => consoleLog(er));   }catch(e){ consoleLog(e) } }"
 //
@@ -63,13 +62,34 @@ class HomeViewController: BaseViewController  {
 //                print(result)
 //            }
 //        }
-//
-//
-//
 //    }
+    
+    private func readContents() -> [WidgetContent] {
+        guard let archiveUrl = FileManager.default.containerURL(
+          forSecurityApplicationGroupIdentifier: "group.com.chuck.clipstack.contents"
+        ) else { return [] }
+        
+        var contents: [WidgetContent] = []
+        
+        let archiveURL = archiveUrl.appendingPathComponent("contents1.json")
+        print(">>> \(archiveURL)")
+
+        let decoder = JSONDecoder()
+        if let codeData = try? Data(contentsOf: archiveURL) {
+            print(codeData)
+            do {
+              contents = try decoder.decode([WidgetContent].self, from: codeData)
+            } catch {
+              print("Error: Can't decode contents")
+            }
+        }
+        return contents
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        readContents()
     }
     
     override func viewWillAppear(_ animated: Bool) {

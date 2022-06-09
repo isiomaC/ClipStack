@@ -40,14 +40,21 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         navFromCoordinator.tabBarItem = homeTabIcon
         
+        
         // Settings View Controller Start Up
         let settingsVC = SettingsViewController()
-        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 1)
-        settingsVC.tabBarItem = menuTabIcon
+        SettingsCoordinator.setInstance(root: settingsVC)
         
+        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 1)
+        
+        guard let settingNavController = SettingsCoordinator.shared.navigationController else{
+            return
+        }
+        
+        settingNavController.tabBarItem = menuTabIcon
         
         // Adding all Tab View Controllers
-        self.viewControllers = [navFromCoordinator, settingsVC].map({ (viewController) in
+        self.viewControllers = [navFromCoordinator, settingNavController].map({ (viewController) in
             viewController
         })
         

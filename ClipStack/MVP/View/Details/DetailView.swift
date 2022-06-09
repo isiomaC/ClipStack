@@ -75,9 +75,12 @@ class DetailView : UIView {
         mImageView.contentMode = .scaleAspectFit
         mImageView.backgroundColor = .systemBackground
         
+        
+        
         closeBtn.translatesAutoresizingMaskIntoConstraints = false
         closeBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         closeBtn.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        
         
         
         mTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,6 +89,7 @@ class DetailView : UIView {
         mTextView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         
         mTextView.bottomAnchor.constraint(equalTo: bottomArea.topAnchor, constant: -10).isActive = true
+        
         
         
         mImageView.translatesAutoresizingMaskIntoConstraints = false

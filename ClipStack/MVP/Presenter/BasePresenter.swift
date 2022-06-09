@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 protocol BasePresenterDelegate: AnyObject {
     func fetchedDataFromCoreDataDB(data: [CopyItem])
@@ -17,6 +18,8 @@ typealias PresenterDelegate = BasePresenterDelegate & UIViewController
 
 class BasePresenter {
     weak var delegate: PresenterDelegate?
+
+    var context: NSManagedObjectContext?
     
     init(delegate: PresenterDelegate) {
         self.delegate = delegate

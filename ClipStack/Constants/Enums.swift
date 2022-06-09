@@ -30,7 +30,7 @@ enum CoreDataModelType: String{
 }
 
 
-enum CopyItemType: String, CodingKey{
+enum CopyItemType: String, Codable, CodingKey{
     case image
     case text
     case url

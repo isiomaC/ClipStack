@@ -36,6 +36,17 @@ extension UIApplication {
     }
 }
 
+
+//MARK: Filemanager
+extension FileManager {
+  static func sharedContainerURL() -> URL {
+    return FileManager.default.containerURL(
+      forSecurityApplicationGroupIdentifier: "group.com.chuck.clipstack.contents"
+    )!
+  }
+}
+
+
 // MARK: UIColor EXTENSIONS
 extension UIColor {
 

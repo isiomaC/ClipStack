@@ -14,8 +14,6 @@ class CopyItemsPresenter: BasePresenter {
     
     var copyItems: [CopyItem]?
     
-    var context: NSManagedObjectContext?
-    
 //    private func save(){
 //        (UIApplication.shared.delegate as! AppDelegate).saveContext()
 //    }
@@ -80,17 +78,19 @@ class CopyItemsPresenter: BasePresenter {
             newCopyItem.keyId = copyItem.keyId
             newCopyItem.folderId = copyItem.folderId
             newCopyItem.id = copyItem.id
-        }
+       
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext { result in
-            switch result{
-                case .success(let saveComplete):
-                    completion(saveComplete)
-                    break;
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    completion(false)
-                    break;
+            (UIApplication.shared.delegate as! AppDelegate).saveContext { [weak self] result in
+                switch result{
+                    case .success(let saveComplete):
+                        self?.writeContentsForExtension(mCopyItems: [newCopyItem])
+                        completion(saveComplete)
+                        break;
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        completion(false)
+                        break;
+                }
             }
         }
     }
@@ -201,4 +201,35 @@ extension CopyItemsPresenter {
     }
     
     
+}
+
+
+//Widget Extension helper
+extension CopyItemsPresenter{
+    func writeContentsForExtension(mCopyItems: [CopyItem]) {
+        let widgetContents = mCopyItems.map {
+            WidgetContent(date: $0.dateCreated!, content: $0.content!,
+                          name: $0.title!, type: $0.type!,
+                          dateCreated: $0.dateCreated!, id: $0.id)
+        }
+//        var date: Date = Date()
+//        let content: Data
+//        let name: String
+//        let type: CopyItemType
+//        let dateCreated: Date
+//        let id: UUID?
+        
+        let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents1.json")
+        
+        print(">>> \(archiveURL)")
+        let encoder = JSONEncoder()
+        if let dataToSave = try? encoder.encode(widgetContents) {
+          do {
+            try dataToSave.write(to: archiveURL)
+          } catch {
+            print("Error: Can't write contents")
+            return
+          }
+        }
+      }
 }
