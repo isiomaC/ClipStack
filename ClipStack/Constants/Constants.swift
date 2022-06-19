@@ -17,6 +17,7 @@ struct Dimensions {
 
 
 struct UserDefaultkeys {
+    static let firstCameraCheck = "FirstCameraAccessCheck"
     static let isFirstLaunch = "isFirstLaunch"
     static let isSubscribed = "UserSubscribed"
     static let isAuthenticated = "UserAuthenticated"

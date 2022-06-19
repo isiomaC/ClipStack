@@ -18,10 +18,11 @@ class CopyItemsPresenter: BasePresenter {
 //        (UIApplication.shared.delegate as! AppDelegate).saveContext()
 //    }
     
-    func prepareDataToSave(pasteboard: UIPasteboard) -> (CopyItemType?, Data?){
+    func prepareDataToSave(pasteboard: UIPasteboard) -> (CopyItemType?, Data?, String?){
         
         var type: CopyItemType?
         var content: Data?
+        var title: String?
         
         if pasteboard.hasStrings || pasteboard.hasURLs{
 
@@ -30,40 +31,48 @@ class CopyItemsPresenter: BasePresenter {
 
             //URL and string are stored in pasteboard.string
             guard let saveString = pasteboard.string else{
-              return (nil, nil)
+              return (nil, nil, nil)
             }
 
             if saveString.starts(with: "http"){
-              type = CopyItemType.url
+                type = CopyItemType.url
             }else{
-              type = CopyItemType.text
+                type = CopyItemType.text
             }
             content = Data(saveString.utf8)
-
+            title = saveString
+           
         }else if pasteboard.hasImages{
 
             //save Image
             type = CopyItemType.image
             guard let saveImage = pasteboard.image, let mData = saveImage.pngData() else{
-              return (nil, nil)
+              return (nil, nil, nil)
             }
             content = mData
+            title = "image"
 
         }else if pasteboard.hasColors{
 
             type = CopyItemType.color
             guard let saveColor = pasteboard.color, let colorData = saveColor.encode() else{
-              return (nil, nil)
+              return (nil, nil, nil)
             }
             content = colorData
+            if #available(iOS 14.0, *) {
+                title = saveColor.accessibilityName
+            } else {
+                // Fallback on earlier versions
+                title = saveColor.description
+            }
         }
         
-        return (type, content)
+        return (type, content, title)
     }
     
     func save(_ copyItemDTO: CopyItemDTO?, completion: @escaping (Bool?) -> Void ){
         
-        guard let mContext = context else {
+        guard let mContext = context, let isAuto = copyItemDTO?.isAutoCopy else {
             return
         }
         
@@ -76,14 +85,14 @@ class CopyItemsPresenter: BasePresenter {
             newCopyItem.dateUpdated = copyItem.dateUpdated
             newCopyItem.type = copyItem.type?.rawValue
             newCopyItem.keyId = copyItem.keyId
-            newCopyItem.folderId = copyItem.folderId
+            newCopyItem.isAutoCopy = isAuto
             newCopyItem.id = copyItem.id
        
         
             (UIApplication.shared.delegate as! AppDelegate).saveContext { [weak self] result in
                 switch result{
                     case .success(let saveComplete):
-                        self?.writeContentsForExtension(mCopyItems: [newCopyItem])
+//                        self?.writeContentsForExtension(mCopyItems: [newCopyItem])
                         completion(saveComplete)
                         break;
                     case .failure(let error):
@@ -95,7 +104,7 @@ class CopyItemsPresenter: BasePresenter {
         }
     }
     
-    func getDataItems(_ type: CopyItemType?) -> [CopyItem]{
+    func getDataItems(_ type: CopyItemType?, predicate: NSPredicate? = nil) -> [CopyItem]{
         
         var copyItems = [CopyItem]()
 
@@ -111,6 +120,9 @@ class CopyItemsPresenter: BasePresenter {
             let request : NSFetchRequest<CopyItem> =  CopyItem.fetchRequest()
             let query : NSSortDescriptor = NSSortDescriptor(key: "dateUpdated", ascending: false)
                    
+            request.predicate = predicate
+            // NSPredicate(format: "isAutoCopy = %@", true)
+            
             request.sortDescriptors = [query]
             
             do{
@@ -122,10 +134,13 @@ class CopyItemsPresenter: BasePresenter {
        
         return copyItems
     }
+
     
     override func getCopyItems(type: CopyItemType?) {
         
-        let data = getDataItems(type)
+        let query = NSPredicate(format: "isAutoCopy == %@", NSNumber(booleanLiteral: true))
+        
+        let data = getDataItems(type, predicate: query)
         
         delegate?.fetchedDataFromCoreDataDB(data: data)
     }

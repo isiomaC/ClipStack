@@ -45,7 +45,7 @@ struct Provider: TimelineProvider {
         //ftech new snapshot to show
         let entry = snapShotEntry
         
-        var entries: [WidgetContent] = readContents()
+//        var entries: [WidgetContent] = readContents()
         
         completion(entry)
     }

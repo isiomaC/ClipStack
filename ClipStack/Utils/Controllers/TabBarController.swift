@@ -30,22 +30,34 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.tintColor = .systemGray
         
         // Home View Controller Start Up
-        let homeVC = HomeViewController()
-        MainCoordinator.setInstance(root: homeVC)
+        let copyItemVC = CopyItemsViewController()
+        MainCoordinator.setInstance(root: copyItemVC)
         
-        let homeTabIcon = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        let homeTabIcon = UITabBarItem(title: "ClipStack", image: UIImage(systemName: "house"), tag: 0)
         
-        guard let navFromCoordinator = MainCoordinator.shared.navigationController else{
+        guard let mainNavController = MainCoordinator.shared.navigationController else{
             return
         }
-        navFromCoordinator.tabBarItem = homeTabIcon
+        mainNavController.tabBarItem = homeTabIcon
+        
+        
+        // Add Copy Item Controller Start up
+        let addedCopyVC = AddedCopyItemsViewController()
+        AddedCoordinator.setInstance(root: addedCopyVC)
+        
+        let addedIcon = UITabBarItem(title: "My Clips", image: UIImage(systemName: "square.stack.fill"), tag: 1)
+        
+        guard let addedNavController = AddedCoordinator.shared.navigationController else{
+            return
+        }
+        addedNavController.tabBarItem = addedIcon
         
         
         // Settings View Controller Start Up
         let settingsVC = SettingsViewController()
         SettingsCoordinator.setInstance(root: settingsVC)
         
-        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 1)
+        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 2)
         
         guard let settingNavController = SettingsCoordinator.shared.navigationController else{
             return
@@ -54,7 +66,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         settingNavController.tabBarItem = menuTabIcon
         
         // Adding all Tab View Controllers
-        self.viewControllers = [navFromCoordinator, settingNavController].map({ (viewController) in
+        self.viewControllers = [mainNavController, addedNavController, settingNavController].map({ (viewController) in
             viewController
         })
         

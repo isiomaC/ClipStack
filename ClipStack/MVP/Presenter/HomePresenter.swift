@@ -16,7 +16,7 @@ class HomePresenter : BasePresenter {
 //    var context: NSManagedObjectContext?
     
     func save(_ copyItemDTO: CopyItemDTO){
-        guard let mContext = context else {
+        guard let mContext = context, let isAuto = copyItemDTO.isAutoCopy else {
             return
         }
         do{
@@ -28,7 +28,7 @@ class HomePresenter : BasePresenter {
             newCopyItem.dateUpdated = copyItemDTO.dateUpdated
             newCopyItem.type = copyItemDTO.type?.rawValue
             newCopyItem.keyId = copyItemDTO.keyId
-            newCopyItem.folderId = copyItemDTO.folderId
+            newCopyItem.isAutoCopy = isAuto
             newCopyItem.id = copyItemDTO.id
             
             try context?.save()

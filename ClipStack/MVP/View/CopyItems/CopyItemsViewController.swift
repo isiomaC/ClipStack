@@ -11,7 +11,7 @@ import UIKit
 import LinkPresentation
 
 
-class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
+class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UISearchResultsUpdating{
         
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     
@@ -27,6 +27,12 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     
     var queryFilter: String?
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,17 +45,58 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         initializePresenter()
         initializeViews()
         
-        self.title = "ClipStack";
-//        self.navigationItem.title = "ClipStack"
-//        self.navigationController?.navigationBar.topItem!.title = "ClipStack";
-//        self.navigationController?.navigationBar.tintColor = .red
-//        title = "ClipStack"
+        self.title = "Home";
         addCreateButton()
         
         print(dataFilePath)
         
-    
     }
+    
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        
+        print(searchText)
+
+        print(searchController.isActive)
+        
+        if !searchController.isActive {
+            searching = false
+            replaceAll(itemList: dataSetCopy)
+        }
+        
+        if !searchText.isReallyEmpty {
+            searching = true
+            
+            let cleanText = searchText.trim()
+            
+            let filtered = dataSetCopy.filter { copyItem in
+                
+                guard let ctype = copyItem.type, let type = CopyItemType.init(stringValue: ctype) else{
+                    return false
+                }
+                
+                if (type == CopyItemType.text || type == CopyItemType.url){
+                    guard let stringContent = String(data: copyItem.content!, encoding: .utf8) else {
+                        return false
+                    }
+                    
+                    if stringContent.lowercased().contains(cleanText.lowercased()){
+                        return true
+                    }
+                }
+                
+                return false
+            }
+            
+//          replaceAll(itemList: filtered )
+            dataSet = filtered
+            collecionView.reloadData()
+            searching = false
+            
+        }
+    }
+    
     
     //MARK:- Initialize Views and Presenter
     func initializePresenter(){
@@ -59,6 +106,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         
         copyItemsPresenter?.getCopyItems(type: nil)
     }
+    
     
     func initializeViews(){
         
@@ -72,17 +120,14 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         
 //        homeView.topArea.addSubview(collecionView)
 //        homeView.topArea.backgroundColor = .systemPink
-        view = homeView
         
-        //add another collectionView
+        view = homeView
         view.addSubview(collecionView)
+        
     }
     
     override func updatePasteBoardData(){
-        //determine type of data to save
         var newCopyItem : CopyItemDTO
-//        var type: CopyItemType?
-//        var content : Data?
         
         let pasteboardManager = PasteBoardManager.shared
         
@@ -95,21 +140,21 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
                 return
             }
             
-            let (type, content) = presenter.prepareDataToSave(pasteboard: mPasteBoard)
+            let (type, content, title) = presenter.prepareDataToSave(pasteboard: mPasteBoard)
             
             let mDate = Date()
             
             //save data
             newCopyItem = CopyItemDTO(
-                color: "systemBlue",
+                color: CopyItemTypeColor.getColor(type: type),
                 content: content,
                 dateCreated: mDate,
                 dateUpdated: mDate,
-                folderId: UUID(),
                 id: UUID(),
-                keyId: UUID(),
-                title: "test_title",
-                type: type)
+                keyId: UUID(),  // for short keys - extensions feature
+                title: title,   //same as content if text or url, else png for image, els file for pdf
+                type: type,
+                isAutoCopy: true)
             
             //save
             presenter.save(newCopyItem, completion: { [weak self]success in
@@ -126,18 +171,12 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         }
     }
     
-    private func setUpSearchBar() {
-        guard let statusBarView = UIApplication.shared.statusBarView else {
-            return
-        }
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: statusBarView.frame.height,
-                                              width: Dimensions.screenSize.width, height: 60))
-        searchBar?.delegate = self
-        searchBar?.clearBackgroundColor()
-        searchBar?.placeholder = "Enter search term"
-        
-//        searchBar?.setLeftImage(UIImage(color: .red), tintColor: .white)
-//        searchBar?.showsCancelButton = true
+    private func setUpSearchController() {
+        let search = UISearchController(searchResultsController: nil)
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Type something here to search"
+        navigationItem.searchController = search
     }
     
     //MARK: Core Data Code
@@ -153,9 +192,10 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     }
     
     override func initializeDefaults() {
-        setUpSearchBar()
+        
+        setUpSearchController()
         hasTabBar = true
-        let frame = CGRect(x: 0, y: UIApplication.shared.statusBarView!.frame.height + searchBar!.frame.height,
+        let frame = CGRect(x: 0, y:0,
                            width: Dimensions.screenSize.width, height: Dimensions.screenSize.height)
         mFlowLayout = getFlowLayOut()
         collecionView = UICollectionView(frame: frame, collectionViewLayout: mFlowLayout)
@@ -170,6 +210,18 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
         hasRefresh = true
     }
     
+    override func sizeForItem() -> CGSize {
+        let tt = verticalSpacing + 10
+        
+        let twox2gridEnabled = false //Add Settings for Grid
+        
+        if (twox2gridEnabled){
+            return CGSize(width: Dimensions.halfScreenWidth - tt , height: Dimensions.halfScreenWidth - tt)
+        }
+        
+        return CGSize(width: Dimensions.screenSize.width - tt , height: Dimensions.halfScreenWidth - tt)
+    }
+    
     override func getData(array: [Any]) -> [CopyItem] {
         if let mArray = array as? [CopyItem] {
             return mArray
@@ -180,6 +232,8 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>{
     override func setupHeaderViews(header: UIView) {
         if let mView = header as? CopyItemHeaderCell {
 //            mView.bgImage = UIImageView(image: .remove)
+            
+            mView.addSubview(searchBar!)
         }
     }
 

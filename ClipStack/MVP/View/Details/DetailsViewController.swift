@@ -33,6 +33,12 @@ class DetailsViewController : BaseViewController {
         view = detailView
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.isHidden = false
+       
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,7 +50,7 @@ class DetailsViewController : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        view.isHidden = false
         guard let copyItem = detailPresenter?.copyItem,
               let value = detailPresenter?.resolveCopyItemType(copyItem: copyItem )else { return }
         

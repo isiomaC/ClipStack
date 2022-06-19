@@ -18,7 +18,7 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     var dataSet = [DataItem](), dataSetCopy = [DataItem]()
     
     let edgeMargins: CGFloat = 15
-    let cellIdentifier = "cell", headerIdentifier = "header", footerIdentifier = "footer"
+    var cellIdentifier = "cell", headerIdentifier = "header", footerIdentifier = "footer"
     
     var verticalSpacing: CGFloat = 15
     var tabBarOffSet: CGFloat = 120
@@ -28,12 +28,20 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     var collecionView: UICollectionView!
     var mFlowLayout: UICollectionViewFlowLayout!
     
+    var numberOItemsInRow: Int = 2
+    
     var emptyView: UILabel!
     
     var progressBar: UIActivityIndicatorView!
     var loading = false
     var refreshingg = true
     var more = false
+    
+    func updateCellIdentifiers(identifiers: (cell: String, header: String, footer: String)){
+        cellIdentifier = identifiers.cell
+        headerIdentifier =  identifiers.header
+        footerIdentifier =  identifiers.footer
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,15 +87,16 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     
     func getFlowLayOut() -> UICollectionViewFlowLayout {
        
-       let layout = UICollectionViewFlowLayout()
-       layout.scrollDirection = .vertical
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        
+        layout.minimumLineSpacing = verticalSpacing
+        layout.minimumInteritemSpacing = verticalSpacing
       
-       layout.estimatedItemSize = CGSize(width: Dimensions.CollectionViewFlowLayoutWidth, height: Dimensions.screenSize.height * 0.2)
+        layout.estimatedItemSize = CGSize(width: Dimensions.screenSize.width, height: Dimensions.screenSize.height * 0.2)
 //        // CGSize(width: Dimensions.screenSize.width/2, height: Dimensions.screenSize.height * 0.2)
 //       layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: -200, right: 10)
 
-        
-       layout.minimumInteritemSpacing = 10
         
        return layout
        
@@ -161,6 +170,12 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         return 1
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return sizeForItem()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSet.count
     }
@@ -195,7 +210,7 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         
         //tabBarOffSet
         if hasTabBar {
-            return UIEdgeInsets(top: 0, left: 0, bottom: (tabBarHeight + tabBarOffSet), right: 0)
+            return UIEdgeInsets(top: 0, left: 10, bottom: (tabBarHeight + tabBarOffSet), right: 10)
         }
         
         return hasEdgeMargins
@@ -225,6 +240,11 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         
     }
     
+    func sizeForItem() -> CGSize{
+        
+        return CGSize()
+    }
+    
     func displayItem(_ cell: DataCell, _ data: DataItem, _ position: Int) {
         
     }
@@ -247,6 +267,10 @@ extension GenericCollectionView {
     func notifyChange() {
         dataSetCopy = dataSet
         collecionView.reloadData()
+    }
+    
+    func notifySearchChange(){
+        
     }
     
     final func add(item: DataItem) {

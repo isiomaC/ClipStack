@@ -1,33 +1,31 @@
 //
-//  MainCoordinator.swift
-//  Common
+//  AddedCoordinator.swift
+//  ClipStack
 //
-//  Created by Chuck on 23/07/2021.
+//  Created by Chuck on 12/06/2022.
 //
 
 import Foundation
 import UIKit
 
-typealias CoordinatingDelegate = UIViewController & Coordinating
-
-class MainCoordinator: Coordinator {
+class AddedCoordinator: Coordinator {
     var children: [Coordinating]?
     
     var navigationController: UINavigationController?
     
-    private static var instance: MainCoordinator?
+    private static var instance: AddedCoordinator?
     
     var currentChild: CoordinatingDelegate?
     
-    static let shared: MainCoordinator = {
-        if MainCoordinator.instance == nil {
-            MainCoordinator.instance = MainCoordinator(navigationController: setInstance(CopyItemsViewController()))
+    static let shared: AddedCoordinator = {
+        if AddedCoordinator.instance == nil {
+            AddedCoordinator.instance = AddedCoordinator(navigationController: setInstance(AddedCopyItemsViewController()))
         }
-        return MainCoordinator.instance!
+        return AddedCoordinator.instance!
     }()
     
     static func setInstance(root: UIViewController) {
-        MainCoordinator.instance = MainCoordinator(navigationController: setInstance(root))
+        AddedCoordinator.instance = AddedCoordinator(navigationController: setInstance(root))
     }
     
     static func setInstance(_ navigationRoot: UIViewController) -> UINavigationController {
@@ -47,14 +45,6 @@ class MainCoordinator: Coordinator {
        
     }
     
-    private func setWindowRootVC() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        guard let navVc = MainCoordinator.shared.navigationController else {
-            return
-        }
-        appDelegate?.setRootViewController(navVc, animated: true)
-    }
-    
     // MARK: Presentation Functions
     func presentVC(_ currentVC: CoordinatingDelegate, _ nextVC: CoordinatingDelegate, presentation: UIModalPresentationStyle = .automatic) {
         children?.append(currentVC)
@@ -72,7 +62,8 @@ class MainCoordinator: Coordinator {
             
         currentChild = currentVC
         currentVC.modalPresentationStyle = presentation
-        currentVC.present(nextVC, animated: true, completion: nil)
+        
+        currentVC.present(UINavigationController(rootViewController: nextVC), animated: true, completion: nil)
     }
     
     // MARK: Push and Pop View Controllers

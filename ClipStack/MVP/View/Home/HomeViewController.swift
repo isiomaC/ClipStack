@@ -1,5 +1,5 @@
 //
-//  NewHomeVC.swift
+//  HomeViewController.swift
 //  ClipStack
 //
 //  Created by Chuck on 04/04/2022.
@@ -10,7 +10,7 @@ import UIKit
 import JavaScriptCore
 
 
-class HomeViewController: BaseViewController  {
+class HomeViewController: BaseViewController, UISearchResultsUpdating  {
 
     var abc : String?
     
@@ -30,66 +30,61 @@ class HomeViewController: BaseViewController  {
         initTableView()
         initPresenter()
         
+        let search = UISearchController(searchResultsController: nil)
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Type something here to search"
+        navigationItem.searchController = search
+        
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
     }
     
     //MARK: Testing
-//    func callJavascript(){
-//        let jsSource = "var read = function() { try{  window.navigator.clipboard.readText().then(clip => consoleLog(clip) ).catch(er => consoleLog(er));   }catch(e){ consoleLog(e) } }"
-//
-//        //Initialize
-//        let jsContext = JSContext()
-//        jsContext?.exceptionHandler = { context, exception in
-//            if let ex = exception {
-//                print("JS Exception", ex.toString())
-//            }
-//        }
-//        jsContext?.evaluateScript(jsSource)
-//        //End Initialize
-//
-//
-//        //Console Log : Calling swift from jsContext
-//        let consoleLog: @convention(block) (String) -> Void = { logMessage in
-//            print("\nJS Console: ", logMessage)
-//        }
-//        let consoleLogObject = unsafeBitCast(consoleLog, to: AnyObject.self)
-//        jsContext?.setObject(consoleLogObject, forKeyedSubscript: "consoleLog" as (NSCopying & NSObjectProtocol))
-//
-//        jsContext?.evaluateScript("consoleLog")
-//        //end Console Log
-//
-//        if let copyItemFunc = jsContext?.objectForKeyedSubscript("read") {
-//            if let result = copyItemFunc.call(withArguments: []) {
-//                print(result)
-//            }
-//        }
-//    }
-    
-    private func readContents() -> [WidgetContent] {
-        guard let archiveUrl = FileManager.default.containerURL(
-          forSecurityApplicationGroupIdentifier: "group.com.chuck.clipstack.contents"
-        ) else { return [] }
-        
-        var contents: [WidgetContent] = []
-        
-        let archiveURL = archiveUrl.appendingPathComponent("contents1.json")
-        print(">>> \(archiveURL)")
+    func callJavascript(){
+        let jsSource = "var read = function() { try{  window.navigator.clipboard.readText().then(clip => consoleLog(clip) ).catch(er => consoleLog(er));   }catch(e){ consoleLog(e) } }"
 
-        let decoder = JSONDecoder()
-        if let codeData = try? Data(contentsOf: archiveURL) {
-            print(codeData)
-            do {
-              contents = try decoder.decode([WidgetContent].self, from: codeData)
-            } catch {
-              print("Error: Can't decode contents")
+        //Initialize
+        let jsContext = JSContext()
+        jsContext?.exceptionHandler = { context, exception in
+            if let ex = exception {
+                print("JS Exception", ex.toString())
             }
         }
-        return contents
+        jsContext?.evaluateScript(jsSource)
+        //End Initialize
+
+
+        //Console Log : Calling swift from jsContext
+        let consoleLog: @convention(block) (String) -> Void = { logMessage in
+            print("\nJS Console: ", logMessage)
+        }
+        
+        let consoleLogObject = unsafeBitCast(consoleLog, to: AnyObject.self)
+        jsContext?.setObject(consoleLogObject, forKeyedSubscript: "consoleLog" as (NSCopying & NSObjectProtocol))
+
+        jsContext?.evaluateScript("consoleLog")
+        //end Console Log
+
+        if let copyItemFunc = jsContext?.objectForKeyedSubscript("read") {
+            if let result = copyItemFunc.call(withArguments: []) {
+                print(result)
+            }
+        }
     }
+    
+    private func initPresenter() {
+        homePresenter = HomePresenter(delegate: self)
+        homePresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        readContents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,10 +116,7 @@ class HomeViewController: BaseViewController  {
         }
     }
     
-    private func initPresenter() {
-        homePresenter = HomePresenter(delegate: self)
-        homePresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    }
+   
     
 }
 
@@ -133,7 +125,7 @@ class HomeViewController: BaseViewController  {
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -144,8 +136,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             returnVal = "History"
         }else if section == 1{
             returnVal = "Type"
-        }else if section == 2 {
-            returnVal = "Collections"
         }
         
         return returnVal
@@ -158,8 +148,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             returnVal = defaultOptions.count
         }else if section == 1{
             returnVal = copyItemOptions.count
-        }else if section == 2 {
-            returnVal = stubData.count
         }
         
         return returnVal!
@@ -198,9 +186,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             let option = copyItemOptions[indexPath.row]
             
             
-        }else if indexPath.section == 2 {
-            
-            
         }
         print(indexPath.row)
     }
@@ -215,10 +200,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             item = defaultOptions[indexPath.row]
         }else if indexPath.section == 1{
             item = copyItemOptions[indexPath.row]
-        }else if indexPath.section == 2 {
-            print(indexPath.row)
-            print(indexPath.section)
-            item = stubData[indexPath.row]
         }
         
         guard let mItem = item else {

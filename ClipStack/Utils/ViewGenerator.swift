@@ -35,6 +35,8 @@ class ViewGenerator {
             btn.setTitleColor(props.titleColor, for: .normal)
             btn.setTitle(props.title, for: .normal)
 //            btn.setImage(UIImage(systemName: "search"), for: .normal)
+            btn.setImage(props.image,
+                    for: .normal)
             btn.titleLabel?.font = props.font
             
             btn.layer.cornerRadius = props.radius
@@ -44,6 +46,47 @@ class ViewGenerator {
             btn.sizeToFit()
             return btn
         }
+    }
+    
+    static func styledImageView(withProps props: ImageViewOptions) -> UIImageView{
+    
+        let imgView = UIImageView(frame: CGRect(x: 0, y: 0, width: Dimensions.screenSize.width, height: Dimensions.halfScreenHeight))
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.image = props.image
+        return imgView
+    }
+
+    static func styledLabled( withProps props : LabelOptions) -> UILabel{
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: Dimensions.screenSize.width, height: 44))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = props.color
+        label.font = props.fontStyle  ?? AppFonts.loginLandingText
+        label.text =  props.text  //C.appName
+        return label
+    }
+    
+    static func circularButton(image : UIImage?, smiley: String?) -> UIButton{
+       
+        var btn : UIButton?
+        if let img = image {
+            btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+            btn?.translatesAutoresizingMaskIntoConstraints = false
+            btn?.setImage(img, for: .normal)
+        }else{
+            btn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            btn?.translatesAutoresizingMaskIntoConstraints = false
+            btn?.setTitle(smiley, for: .normal)
+            btn?.backgroundColor = .systemGray6
+            
+//            btn?.layer.cornerRadius = (btn?.frame.height)!/2
+        }
+        
+        
+        
+//        btn.imageView?.layer.cornerRadius = btn.bounds.height/2
+        
+        return btn!
     }
     
     static func getTextField(_ props: TextFieldOptions, copyPaste: Bool = true) -> UITextField {
@@ -135,13 +178,13 @@ class ViewGenerator {
     static func getTextView(_ props: TextViewOptions) -> UITextView {
         let textView = UITextView(frame: CGRect(x: 0, y: 0, width: Dimensions.screenSize.width, height: Dimensions.screenSize.height * 0.2))
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainer.maximumNumberOfLines = 4
+        textView.textContainer.maximumNumberOfLines = 20
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textColor = props.textColor
         textView.font = props.fontStyle
         textView.textAlignment = .natural
         textView.text = props.placeholder
-        textView.textColor = UIColor.lightGray
+        textView.textColor = .systemGray6
         return textView
     }
 }

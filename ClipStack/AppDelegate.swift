@@ -20,9 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         startApp()
         
-        cancelAllPandingBGTask()
-        registerBackGroundTasks()
-        
+//        cancelAllPandingBGTask()
+//        registerBackGroundTasks()
+//
         let _ = PasteBoardManager.shared //initialize pasteboard changeCount
         
         return true
@@ -30,10 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        cancelAllPandingBGTask()
+//        cancelAllPandingBGTask()
         
 //        scheduleTask(taskId: BackgroundIds.appRefresh)
-        scheduleTask(taskId: BackgroundIds.bgCopy)
+//        scheduleTask(taskId: BackgroundIds.bgCopy)
         
     }
     // MARK: - Core Data stack
@@ -185,7 +185,7 @@ extension AppDelegate {
             
             let presenter = CopyItemsPresenter()
             
-            let (type, content) = presenter.prepareDataToSave(pasteboard: pasteboard)
+            let (type, content, title) = presenter.prepareDataToSave(pasteboard: pasteboard)
             
             let mDate = Date()
             
@@ -195,11 +195,11 @@ extension AppDelegate {
                 content: content,
                 dateCreated: mDate,
                 dateUpdated: mDate,
-                folderId: UUID(),
                 id: UUID(),
                 keyId: UUID(),
-                title: "test_title",
-                type: type)
+                title: title,
+                type: type,
+                isAutoCopy: true)
             
             presenter.save(newCopyItem) { [weak self] success in
                 guard let saveSuccess = success, let _ = self else{

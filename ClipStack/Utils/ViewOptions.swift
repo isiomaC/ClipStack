@@ -103,3 +103,18 @@ struct TextViewOptions {
         self.fontStyle = fontStyle
     }
 }
+
+//
+//struct ImageViewOptions{
+//    let image : UIImage?
+//    
+//    init(image: UIImage?) {
+//        
+//        if let img = image{
+//            self.image = img
+//        }else{
+//            self.image = nil
+//        }
+//        
+//    }
+//}

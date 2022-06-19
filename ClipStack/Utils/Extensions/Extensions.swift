@@ -12,6 +12,16 @@ extension Notification.Name{
     static let onPasteBoardChange = Notification.Name("on-pasteboard-change")
 }
 
+extension UIView {
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+         let mask = CAShapeLayer()
+         mask.frame = self.bounds
+         mask.path = path.cgPath
+         layer.mask = mask
+    }
+}
+
 // MARK: UIApplication EXTENSIONS
 extension UIApplication {
     var statusBarView: UIView? {
@@ -100,6 +110,32 @@ extension UIViewController {
             alert.dismiss(animated: true)
         }
     }
+    
+    func showErrorAlert(_ with: (title: String, message: String)){
+        let alert = UIAlertController(title: with.title, message: with.message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showInfoAlert(_ with: (title: String, message: String)){
+        let alert = UIAlertController(title: with.title, message: with.message, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "Cancel", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(okAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
     
 }
 
@@ -200,6 +236,89 @@ extension UISearchBar {
         } else {
             textField?.leftView = imageView
         }
+    }
+}
+
+extension String {
+    //Function to gets smileys as Images
+    
+    func image() -> UIImage? {
+        let size = CGSize(width: 35, height: 35)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        UIColor.clear.set()
+        let rect = CGRect(origin: .zero, size: size)
+        
+        UIRectFill(CGRect(origin: .zero, size: size))
+        
+        (self as AnyObject).draw(in: rect, withAttributes: [.font: UIFont.systemFont(ofSize: 30)])
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+}
+
+extension UIImageView{
+    func makeRounded(){
+//        layer.borderWidth = 1
+        layer.borderColor = UIColor.clear.cgColor
+        layer.masksToBounds = false
+        clipsToBounds = true
+        layer.cornerRadius = layer.frame.width*0.5
+    }
+    
+    func makeStraight(){
+        layer.cornerRadius = 0
+        layer.borderWidth = 0
+        layer.borderColor = UIColor.clear.cgColor
+        layer.masksToBounds = false
+        clipsToBounds = true
+    }
+    
+   
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest  = 0
+        case low     = 0.25
+        case medium  = 0.5
+        case high    = 0.75
+        case highest = 1
+    }
+
+    /// Returns the data for the specified image in JPEG format.
+    /// If the image object’s underlying image data has been purged, calling this function forces that data to be reloaded into memory.
+    /// - returns: A data object containing the JPEG data, or nil if there was a problem generating the data. This function may return nil if the image has no data or if the underlying CGImageRef contains data in an unsupported bitmap format.
+    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+        return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+    
+    func resizeImageWith(newSize: CGSize) -> UIImage {
+
+        let horizontalRatio = newSize.width / size.width
+        let verticalRatio = newSize.height / size.height
+
+        let ratio = max(horizontalRatio, verticalRatio)
+        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+        UIGraphicsBeginImageContextWithOptions(newSize, true, 0)
+        draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
 }
 

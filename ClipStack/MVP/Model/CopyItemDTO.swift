@@ -18,11 +18,11 @@ struct CopyItemDTO{
     var content: Data?
     var dateCreated: Date?
     var dateUpdated: Date?
-    var folderId: UUID?
     var id: UUID?
     var keyId: UUID?
     var title: String?
     var type: CopyItemType?
+    var isAutoCopy: Bool?
     
     mutating func setType(type: CopyItemType){
         self.type = type
