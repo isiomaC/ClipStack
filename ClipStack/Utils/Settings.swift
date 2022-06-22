@@ -10,8 +10,7 @@ import Foundation
 struct Settings{
     
     var cellLayout: String?  // grid - single
-    var AutoCopy: Bool  
-    var clearInterval: Int
-    var defaultLauncScreen: Int
+    var AutoCopy: Bool
+    var clearAfter: Int  //hours
     
 }

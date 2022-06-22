@@ -34,9 +34,11 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
         initializeViews()
         
         addCreateButton()
-        
-        
+       
     }
+    
+    
+    
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
@@ -104,8 +106,6 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
     }
     
     func  initializeViews(){
-//        view = addedView
-        
         view.addSubview(collecionView)
     }
     
@@ -113,11 +113,7 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showAddNewVC))
     }
     
-    @objc func showAddNewVC(){
-        
-        let nextVC = AddNewController()
-        AddedCoordinator.shared.presentVC(self, nextVC)
-    }
+    
     
     private func setUpSearchController() {
         
@@ -128,9 +124,34 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
         navigationItem.searchController = search
     }
     
+    @objc func showAddNewVC(){
+        
+        let nextVC = AddNewController()
+        AddedCoordinator.shared.presentVC(self, nextVC)
+    }
+    
+    @objc func handleNewClipAdded(_ notification: Notification){
+        presenter?.getCopyItems(type: nil)
+//        if let success = notification.userInfo?["profile"] as? Bool{
+//        }
+    }
+    
+    @objc func handleLayoutChange(){
+        collecionView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .newClipAdded, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .layoutChanged, object: nil)
+    }
+    
     override func initializeDefaults() {
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNewClipAdded(_:)), name: .newClipAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLayoutChange), name: .layoutChanged, object: nil)
+        
         setUpSearchController()
+        
         hasTabBar = true
         let frame = CGRect(x: 0, y: 0,
                            width: Dimensions.screenSize.width, height: Dimensions.screenSize.height)
@@ -160,9 +181,9 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
     override func sizeForItem() -> CGSize {
         let tt = verticalSpacing + 10
         
-        let twox2gridEnabled = false //Add Settings for Grid
+        let twox2gridEnabled = UserDefaults.standard.string(forKey: Constants.layout)
         
-        if (twox2gridEnabled){
+        if (twox2gridEnabled == Constants.Layout.grid){
             return CGSize(width: Dimensions.halfScreenWidth - tt , height: Dimensions.halfScreenWidth - tt)
         }
         
@@ -259,6 +280,7 @@ class AddedCopyItemsViewController : GenericCollectionView<CopyItem, CopyItemCel
     
     override func fetchedDataFromCoreDataDB(data: [CopyItem]) {
         print(data)
+        refreshingg = true
         updateCollectionView(data, "blah")
     }
     

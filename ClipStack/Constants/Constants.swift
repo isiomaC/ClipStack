@@ -45,3 +45,29 @@ struct AppFonts {
     static let buttonFont = Font(type: .system, size: .custom(16.0)).instance
     
 }
+
+struct Constants{
+    
+    //settings
+    static let autoCopy = "Auto Copy"
+    static let layout = "Layout"
+    static let clearAfter = "Clear Clips After"
+    
+    //Info
+    static let shareWithFriend = "Share with a friend"
+    static let rateUs = "Rate us"
+    static let contactUs = "Contact us"
+    static let privacyPolicy = "Privacy policy"
+    static let termsUse = "Terms of use"
+    static let version = "Version"
+   
+    
+    //Constants for picker
+    static let indexPathSection = "CurrentPickerOpen_section"
+    static let indexPathRow = "CurrentPickerOpen_row"
+    
+    struct Layout{
+        static let row = "Row"
+        static let grid = "Grid"
+    }
+}

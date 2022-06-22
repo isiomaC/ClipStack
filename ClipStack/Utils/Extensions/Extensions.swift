@@ -10,7 +10,11 @@ import UIKit
 
 extension Notification.Name{
     static let onPasteBoardChange = Notification.Name("on-pasteboard-change")
+    static let newClipAdded = Notification.Name("newClipAddedManually")
+    static let pickerValueSelected = Notification.Name("pickerValueSelected")
+    static let layoutChanged = Notification.Name("layoutChanged")
 }
+
 
 extension UIView {
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {

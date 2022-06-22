@@ -102,18 +102,18 @@ class AddNewController: BaseViewController {
             isAutoCopy: false)
         
         //save
-        addedPresenter.save(newCopyItem, completion: { [weak self]success in
+        addedPresenter.save(newCopyItem, completion: { [weak self] success in
             guard let saveSuccess = success, let strongSelf = self else {
                 return
             }
             if saveSuccess == true {
                 print("Success saving")
                 
-                strongSelf.dismiss(animated: true)
-//                    if let newData = strongSelf?.getDataItems(nil) {
-//                        strongSelf.refreshingg = true
-//                        strongSelf.updateCollectionView(newData, "new")
-//                    }
+                strongSelf.dismiss(animated: true) {
+                    let userInfo: Dictionary<String, Any> = ["success": true as Any]
+                    
+                    NotificationCenter.default.post(name: .newClipAdded, object: nil, userInfo: userInfo as [AnyHashable : Any])
+                }
             }
         })
     }
@@ -161,7 +161,8 @@ class AddNewController: BaseViewController {
             if (addnew.textArea.text.isReallyEmpty == true){
                 return (nil, nil, nil, "Please add valid text")
             }else{
-                returnData = Data(base64Encoded: addnew.textArea.text)
+                print(addnew.textArea.text)
+                returnData = Data(addnew.textArea.text.utf8)
             }
             
         }else if (selectedIndex == 1){

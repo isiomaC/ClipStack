@@ -24,6 +24,9 @@ class CopyItemCell: UICollectionViewCell{
     let btnOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
     lazy var threeDotsButton = ViewGenerator.getButton(btnOptions, circular: true)
     
+    let fileCopyOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
+    lazy var fileCopyButton = ViewGenerator.getButton(fileCopyOptions, circular: true)
+    
     
     lazy var containerLinkView : UIStackView = {
         let stack = UIStackView()

@@ -141,6 +141,11 @@ class CopyItemsPresenter: BasePresenter {
         let query = NSPredicate(format: "isAutoCopy == %@", NSNumber(booleanLiteral: true))
         
         let data = getDataItems(type, predicate: query)
+//
+//        for item in data {
+//            context?.delete(item)
+//            print("After")
+//        }
         
         delegate?.fetchedDataFromCoreDataDB(data: data)
     }
@@ -150,6 +155,41 @@ class CopyItemsPresenter: BasePresenter {
         //Perform operation here then pass to delegate function
         
         super.getError(level, error: error)
+    }
+    
+    func getMenuConfiguration(copy: CopyItem, indexPath: IndexPath) -> UIMenu {
+        let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "")) { [weak self] action in
+            
+            self?.copyItemToClipboard(copy: copy)
+        }
+        
+        let shareAction = UIAction(title: "Share", image: UIImage(systemName: "")) { [weak self] action in
+           
+            guard let controller = self?.delegate as? CopyItemsViewController else {
+                return
+            }
+            
+            self?.shareCopyItem(controller: controller, copyItem: copy)
+        }
+        
+        let deleteAction =  UIAction(title: "Delete", image: UIImage(systemName: ""), attributes: .destructive) { [weak self] action in
+            
+//            self?.handleDeleteAction(copyItem: copy, vc: BaseViewController(), indexPath: indexPath)
+            
+            self?.context?.delete(copy)
+
+            let copyItemsViewController = self?.delegate as? CopyItemsViewController
+
+            copyItemsViewController?.remove(position: indexPath.row)
+
+            let hapticFeedback = UINotificationFeedbackGenerator()
+            hapticFeedback.notificationOccurred(.success)
+
+            self?.save()
+            
+        }
+        
+        return UIMenu(title: "", children: [copyAction, shareAction, deleteAction])
     }
 }
 
@@ -180,41 +220,22 @@ extension CopyItemsPresenter {
             }
         }
     }
-        
     
-    func getMenuConfiguration(copy: CopyItem, indexPath: IndexPath) -> UIMenu {
-        let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "")) { [weak self] action in
-            
-            self?.copyItemToClipboard(copy: copy)
-        }
-        
-        let shareAction = UIAction(title: "Share", image: UIImage(systemName: "")) { [weak self] action in
-           
-            guard let controller = self?.delegate as? CopyItemsViewController else {
-                return
-            }
-            
-            self?.shareCopyItem(controller: controller, copyItem: copy)
-        }
-        
-        let deleteAction =  UIAction(title: "Delete", image: UIImage(systemName: ""), attributes: .destructive) { [weak self] action in
-            
-            self?.context?.delete(copy)
-            
-            let copyItemsViewController = self?.delegate as? CopyItemsViewController
-            
-            copyItemsViewController?.remove(position: indexPath.row)
-            
-            let hapticFeedback = UINotificationFeedbackGenerator()
-            hapticFeedback.notificationOccurred(.success)
-            
-            self?.save()
-            
-        }
-        
-        return UIMenu(title: "", children: [copyAction, shareAction, deleteAction])
-    }
-    
+//    func handleDeleteAction(copyItem: CopyItem, vc: BaseViewController, indexPath: IndexPath ){
+//        context?.delete(copyItem)
+//
+//
+//        if vc is CopyItemsViewController{
+//            (vc as? CopyItemsViewController)?.remove(position: indexPath.row)
+//        }else{
+//            (vc as? AddedCopyItemsViewController)?.remove(position: indexPath.row)
+//        }
+//
+//        let hapticFeedback = UINotificationFeedbackGenerator()
+//        hapticFeedback.notificationOccurred(.success)
+//
+//        save()
+//    }
     
 }
 

@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  CopyItemsViewController.swift
 //  ClipStack
 //
 //  Created by Chuck on 12/03/2022.
@@ -19,7 +19,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
 //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var copyItemsPresenter: CopyItemsPresenter?
-    let homeView = CopyItemsView()
+    let copyItemsView = CopyItemsView()
     
     var searching = false
     
@@ -46,12 +46,20 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
         initializeViews()
         
         self.title = "Home";
-        addCreateButton()
         
         print(dataFilePath)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLayoutChange), name: .layoutChanged, object: nil)
+    
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .layoutChanged, object: nil)
+    }
+    
+    @objc func handleLayoutChange(){
+        collecionView.reloadData()
+    }
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
@@ -109,19 +117,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
     
     
     func initializeViews(){
-        
-//        let labelOpts = LabelOptions(text: "History", color: .black, fontStyle: AppFonts.textField)
-//        let sectionTopHeader = ViewGenerator.getLabel(labelOpts, LabelInsets(5,5,5,5))
-//        homeView.addSectionHeader(label: sectionTopHeader, position: "top")
-//
-//        let labelOpts2 = LabelOptions(text: "Type", color: .black, fontStyle: AppFonts.textField)
-//        let sectionBottomHeader = ViewGenerator.getLabel(labelOpts2, LabelInsets(5,5,5,5))
-//        homeView.addSectionHeader(label: sectionBottomHeader, position: "bottom")
-        
-//        homeView.topArea.addSubview(collecionView)
-//        homeView.topArea.backgroundColor = .systemPink
-        
-        view = homeView
+        view = copyItemsView
         view.addSubview(collecionView)
         
     }
@@ -162,10 +158,13 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
                     return
                 }
                 if saveSuccess == true {
-                    if let newData = strongSelf.copyItemsPresenter?.getDataItems(nil) {
-                        strongSelf.refreshingg = true
-                        strongSelf.updateCollectionView(newData, "new")
-                    }
+                    
+                    strongSelf.copyItemsPresenter?.getCopyItems(type: nil)
+                    
+//                    if let newData = strongSelf.copyItemsPresenter?.getDataItems(nil) {
+//                        strongSelf.refreshingg = true
+//                        strongSelf.updateCollectionView(newData, "new")
+//                    }
                 }
             })
         }
@@ -183,13 +182,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
     
     
     // MARK: Helper functions
-    private func addCreateButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createCopyItem))
-    }
-    
-    @objc func createCopyItem(){
-        print("Create Manually")
-    }
+
     
     override func initializeDefaults() {
         
@@ -213,9 +206,9 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
     override func sizeForItem() -> CGSize {
         let tt = verticalSpacing + 10
         
-        let twox2gridEnabled = false //Add Settings for Grid
+        let twox2gridEnabled = UserDefaults.standard.string(forKey: Constants.layout)
         
-        if (twox2gridEnabled){
+        if (twox2gridEnabled == Constants.Layout.grid){
             return CGSize(width: Dimensions.halfScreenWidth - tt , height: Dimensions.halfScreenWidth - tt)
         }
         
@@ -340,6 +333,7 @@ class CopyItemsViewController: GenericCollectionView<CopyItem, CopyItemCell>, UI
     
     override func fetchedDataFromCoreDataDB(data: [CopyItem]) {
         print(data)
+        refreshingg = true
         updateCollectionView(data, "testKey")
     }
     
