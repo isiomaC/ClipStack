@@ -24,11 +24,17 @@ class DetailView : UIView {
     let imageOptions = ImageViewOptions(image: nil, size: (width: 100, height: 100))
     lazy var mImageView = ViewGenerator.getImageView(imageOptions)
     
-    lazy var closeBtn = ViewGenerator.getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "xmark"), smiley: nil), circular: true)
+    lazy var closeBtn = ViewGenerator.getSimpleImageButton(image: UIImage(systemName: "xmark")!, tintColor: .systemRed)
+        
+//        .getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "xmark"), smiley: nil), circular: true)
     
-    lazy var copyButton = ViewGenerator.getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "doc.on.doc.fill"), smiley: nil), circular: true)
-    lazy var shareButton = ViewGenerator.getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "square.and.arrow.up"), smiley: nil), circular: true)
-    lazy var deleteButton = ViewGenerator.getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "delete.backward"), smiley: nil), circular: true)
+//    lazy var copyButton = ViewGenerator.getButton(ButtonOptions(title: "", color: .systemRed, image: UIImage(systemName: "doc.on.doc.fill"), smiley: nil), circular: true)
+    
+    lazy var shareButton = ViewGenerator.getSimpleImageButton(image:  UIImage(systemName: "square.and.arrow.up")!)
+    
+    lazy var deleteButton = ViewGenerator.getSimpleImageButton(image:  UIImage(systemName: "delete.backward")!)
+    
+    lazy var copyButton = ViewGenerator.getSimpleImageButton(image: UIImage(systemName: "doc.on.doc.fill")!)
     
     lazy var bottomArea : UIStackView = {
         let stack = UIStackView()
@@ -40,6 +46,15 @@ class DetailView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
+        
+        deleteButton.tintColor = MyColors.primary
+        copyButton.tintColor = MyColors.primary
+        shareButton.tintColor = MyColors.primary
+        
+        
+        mImageView.tintColor = MyColors.primary
+        closeBtn.tintColor = .systemRed
+        
         
         backgroundColor = .systemBackground
     }
@@ -64,11 +79,21 @@ class DetailView : UIView {
         addSubview(mImageView)
         addSubview(bottomArea)
         
-        
         bottomArea.addArrangedSubview(shareButton)
         bottomArea.addArrangedSubview(copyButton)
         bottomArea.addArrangedSubview(deleteButton)
         
+        
+        copyButton.widthAnchor.constraint(equalTo: bottomArea.widthAnchor, multiplier: 0.15).isActive = true
+        copyButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        shareButton.widthAnchor.constraint(equalTo: bottomArea.widthAnchor, multiplier: 0.15).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        deleteButton.widthAnchor.constraint(equalTo: bottomArea.widthAnchor, multiplier: 0.15).isActive = true
+        deleteButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+      
         bottomArea.backgroundColor = .systemBackground
         
         
@@ -77,9 +102,10 @@ class DetailView : UIView {
         
         
         
-        closeBtn.translatesAutoresizingMaskIntoConstraints = false
+        closeBtn.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.10).isActive = true
+        closeBtn.heightAnchor.constraint(equalToConstant: 30).isActive = true
         closeBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        closeBtn.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        closeBtn.topAnchor.constraint(equalTo: topAnchor, constant: 40).isActive = true
         
         
         

@@ -40,7 +40,14 @@ struct AppFonts {
     
     
     static let smallLabelText = Font(type: .system, size: .custom(14.0)).instance
+    
+    
     static let labelText = Font(type: .system, size: .custom(16.0)).instance
+    static let boldLabelText = Font(type: .systemBold, size: .custom(16.0)).instance
+    
+    static let descText = Font(type: .system, size: .custom(14.0)).instance
+    static let boldescText = Font(type: .systemBold, size: .custom(14.0)).instance
+    static let boldSmallDescText = Font(type: .systemBold, size: .custom(10.0)).instance
     
     static let buttonFont = Font(type: .system, size: .custom(16.0)).instance
     
@@ -70,4 +77,9 @@ struct Constants{
         static let row = "Row"
         static let grid = "Grid"
     }
+}
+
+
+struct MyColors{
+    static let primary: UIColor = .systemPurple
 }

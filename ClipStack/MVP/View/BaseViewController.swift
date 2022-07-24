@@ -10,17 +10,10 @@ import Foundation
 import UIKit
 
 class BaseViewController: PresenterDelegate, Coordinating {
-    func fetchedDataFromCoreDataDB(data: [CopyItem]) {
-        print("getFromCoreData   => From Base")
-    }
-    
-    func errorFetchingData(level: AlertType, message: String) {
-        print("errorOccured    => From Base")
-    }
     
     var coordinator: Coordinator?
     
-    var saveCopyNotification: Bool = false
+    var saveCopyNotification: Bool = UserDefaults.standard.bool(forKey: Constants.autoCopy)
     
     init(){
         coordinator = (UIApplication.shared.delegate as? AppDelegate)?.coordinator
@@ -33,14 +26,18 @@ class BaseViewController: PresenterDelegate, Coordinating {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.isHidden = false
+        
         if saveCopyNotification == true{
             addNotification()
         }
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,5 +66,14 @@ class BaseViewController: PresenterDelegate, Coordinating {
         //override from children
         print("??Called from Base")
     }
-
+    
+    
+    func fetchedDataFromCoreDataDB(data: [CopyItem]) {
+        print("getFromCoreData   => From Base")
+    }
+    
+    func errorFetchingData(level: AlertType, message: String) {
+        print("errorOccured    => From Base")
+    }
 }
+

@@ -25,11 +25,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBarHeight = tabBar.frame.height
        
         self.tabBar.isTranslucent = false
-//        tabBar.barTintColor = .systemBlue
-        tabBar.unselectedItemTintColor = .systemGray3
-        tabBar.tintColor = .systemGray
+        tabBar.tintColor = MyColors.primary
+//        tabBar.unselectedItemTintColor = .systemGray3
+//        tabBar.tintColor = .systemGray
         
         // Home View Controller Start Up
+//        let copyItemVC = CopyItemsViewController()
         let copyItemVC = CopyItemsViewController()
         MainCoordinator.setInstance(root: copyItemVC)
         
@@ -57,7 +58,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let settingsVC = SettingsViewController()
         SettingsCoordinator.setInstance(root: settingsVC)
         
-        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"text.justifyright"), tag: 2)
+        let menuTabIcon = UITabBarItem(title: "Settings", image: UIImage(systemName:"gear"), tag: 2)
         
         guard let settingNavController = SettingsCoordinator.shared.navigationController else{
             return

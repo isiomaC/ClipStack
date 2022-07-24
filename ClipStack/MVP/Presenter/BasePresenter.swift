@@ -79,7 +79,7 @@ class BasePresenter {
     
     public func copyItemToClipboard(copy: CopyItem){
         
-        let mType = CopyItemType.init(rawValue: copy.type!)
+        guard let mType = CopyItemType.init(rawValue: copy.type!) else { return }
         
         let mPasteBoard = PasteBoardManager.shared.mPasteBoard
 
@@ -124,5 +124,6 @@ class BasePresenter {
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
     }
+    
 }
 

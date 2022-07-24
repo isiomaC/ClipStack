@@ -9,12 +9,13 @@ import Foundation
 import AVFoundation
 import UIKit
 import SafariServices
+import StoreKit
 
 struct Utility {
     
-    static var getDefaultImage: UIImage {
+    static var DefaultEmptyBackground: UIImage {
         get{
-            return UIImage(named: "default.png")!
+            return UIImage(named: "empty_bg.png")!
         }
     }
     
@@ -25,39 +26,92 @@ struct Utility {
         }
     }
     
-    static var DefaultRoomImageUrl : String{
-        get{
-            let value = Utility.readFromPList("Config", key: "DEFAULT_ROOM_AVATAR")
-            return value
-        }
-    }
-    
     static var getDefaultBg : UIImage{
         get{
             return UIImage(named: "AuthBgImage")!
         }
     }
     
-//    static var web_url : String {
-//        get{
-//            let value = Utility.readFromPList("Config", key: "WEB_ROUTE")
-//            return value
-//        }
-//    }
-//
-//    static var appleEula : String {
-//        get{
-//            let value = Utility.readFromPList("Config", key: "APPLE_EULA")
-//            return value
-//        }
-//    }
+    
+    // MARK: Useful web Routes
+    
+    static var IAPProductId: String {
+        get{
+            let value = Utility.readFromPList("Config", key: "IAPProductId")
+            return value
+        }
+    }
+    
+    static var apiRoute : String {
+        get{
+            let value = Utility.readFromPList("Config", key: "apiRoute")
+            return value
+        }
+    }
+    
+    
+    static var webRoute : String {
+        get{
+            let value = Utility.readFromPList("Config", key: "webRoute")
+            return value
+        }
+    }
+    
+    static var appStoreUrl : String {
+        get{
+            let value = Utility.readFromPList("Config", key: "appStoreUrl")
+            return value
+        }
+    }
+    
+    
+    static var privacyPolicyUrl : String {
+        get{
+            let value = Utility.readFromPList("Config", key: "privacyPolicy")
+            return value
+        }
+    }
+
+    static var termsAppleEula : String {
+        get{
+            let value = Utility.readFromPList("Config", key: "termsEULA")
+            return value
+        }
+    }
+    
+
+    static func rateApp() {
+        let appId = "1635426351"
+        
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        } else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + appId) {
+//            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
+        }
+    }
+    
+    static func shareExternal(controller: BaseViewController, itemToShare: AnyObject){
+       
+        let sheet = UIActivityViewController(activityItems: [itemToShare as Any], applicationActivities: nil)
+        
+        controller.present(sheet, animated: true, completion: nil)
+        
+        let hapticFeedback = UINotificationFeedbackGenerator()
+        hapticFeedback.notificationOccurred(.success)
+    }
+    
+    
     
     static func showSafariLink(_ viewController: UIViewController, pageRoute: String){
 //        let urlString = pageRoute == "terms" ? appleEula : "\(web_url)\(pageRoute).html"
       
-        let urlString : String = ""
+//        let urlString : String = ""
         
-        guard let url = URL(string: urlString ) else { return }
+        guard let url = URL(string: pageRoute ) else { return }
         let vc = SFSafariViewController(url: url)
         viewController.present(vc, animated: true, completion: nil)
     }
@@ -216,6 +270,23 @@ struct Utility {
         }
     }
     
+    static func showAlertController(_ viewController: UIViewController, preferredStyle: UIAlertController.Style, confirmTitle: String = "Confirm", confirmAction: @escaping () -> Void){
+        
+        let alertController = UIAlertController (title: nil, message: nil, preferredStyle: preferredStyle)
+
+        let confirm = UIAlertAction(title: confirmTitle, style: .default) { (_) -> Void in
+            confirmAction()
+        }
+        alertController.addAction(confirm)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alertController.addAction(cancel)
+        
+        DispatchQueue.main.async {
+            viewController.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     static func showSettingsAlert(_ viewController: UIViewController, for type: String = ""){
         
         let title: String = "Camera"
@@ -233,16 +304,30 @@ struct Utility {
             }
             if UIApplication.shared.canOpenURL(settingsUrl) {
                 UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)") // Prints true
+                    print("Settings opened: \(success)")
                 })
             }
         }
         alertController.addAction(settingsAction)
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         alertController.addAction(cancelAction)
 
         DispatchQueue.main.async {
             viewController.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    static func showToast(_ viewController: UIViewController, message: String, seconds: Double) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        alert.view.backgroundColor = .systemPurple
+        alert.view.alpha = 1
+        alert.view.layer.cornerRadius = 15
+
+        viewController.present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
+            alert.dismiss(animated: true)
         }
     }
 }

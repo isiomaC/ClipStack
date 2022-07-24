@@ -42,9 +42,9 @@ class PasteBoardManager{
 
     
     func updateChangeCount(){
-        if currentChangeCount == 0 || currentChangeCount <= pasteboard.changeCount {
+//        if currentChangeCount == 0 || currentChangeCount <= pasteboard.changeCount {
             currentChangeCount = pasteboard.changeCount
-        }
+//        }
     }
     
     init() {

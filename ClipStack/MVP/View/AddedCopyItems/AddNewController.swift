@@ -18,9 +18,13 @@ class AddNewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view = addnew
+//        AddedCoordinator.shared.navigationController?.navigationBar.tintColor = MyColors.primary
         
-        self.title = "New Clips"
+        navigationController?.navigationBar.tintColor = MyColors.primary
+        
+        addScrollView()
+    
+        title = "New Clips"
         
         imagePicker.delegate = self
 
@@ -28,6 +32,27 @@ class AddNewController: BaseViewController {
         initializeBarButton()
         
         checkImageAccess()
+    }
+    
+    //Fix for IQKeyboardmanager jumping
+    private func addScrollView(){
+        
+        let y = navigationController?.navigationBar.frame.height ?? 0
+        
+        let scrollView: UIScrollView = UIScrollView(frame: CGRect(x: 0, y: y , width: Dimensions.screenSize.width, height: Dimensions.screenSize.height))
+        
+        scrollView.addSubview(addnew)
+        
+        scrollView.backgroundColor = .systemBackground
+        
+        addnew.translatesAutoresizingMaskIntoConstraints = false
+        
+        addnew.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        addnew.heightAnchor.constraint(equalTo
+                                       : scrollView.heightAnchor).isActive = true
+        
+        view = scrollView
     }
     
     

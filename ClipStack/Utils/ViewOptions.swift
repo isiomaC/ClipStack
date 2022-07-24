@@ -53,7 +53,7 @@ struct TextFieldOptions {
     let keyboardType: UIKeyboardType
     let secured: Bool
     
-    init( placeholder: String, textColor: UIColor = .gray,
+    init( placeholder: String, textColor: UIColor = .lightGray,
           fontStyle: UIFont, alignment: NSTextAlignment = .left,
           keyboardType: UIKeyboardType = .default, backgroundColor: UIColor = .clear,
           secured: TextFieldType = .normal ) {

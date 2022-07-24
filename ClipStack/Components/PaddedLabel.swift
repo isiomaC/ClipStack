@@ -21,6 +21,20 @@ struct LabelInsets{
         self.leftInset = leftInset
         self.rightInset = rightInset
     }
+    
+    init(_ xInset: CGFloat = 0, _ yInset: CGFloat = 0){
+        self.topInset = yInset
+        self.bottomInset = yInset
+        self.leftInset = xInset
+        self.rightInset = xInset
+    }
+    
+    init(_ inset: CGFloat = 0){
+        self.topInset = inset
+        self.bottomInset = inset
+        self.leftInset = inset
+        self.rightInset = inset
+    }
 }
 
 

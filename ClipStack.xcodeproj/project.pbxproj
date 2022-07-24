@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		131078DB283DA82C00997F3B /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131078DA283DA82C00997F3B /* DetailPresenter.swift */; };
+		132877C5287F6F4F00BBF642 /* ClipStack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 132877C3287F6F4F00BBF642 /* ClipStack.xcdatamodeld */; };
 		132B19162855D96400584E4B /* AddedCopyItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B19152855D96400584E4B /* AddedCopyItemsView.swift */; };
 		132B19182855D97400584E4B /* AddedCopyItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B19172855D97400584E4B /* AddedCopyItemsViewController.swift */; };
 		132B191A2855D9EC00584E4B /* AddedClipsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B19192855D9EC00584E4B /* AddedClipsPresenter.swift */; };
@@ -19,15 +20,16 @@
 		132B1926285BD5E600584E4B /* BasePopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B1925285BD5E600584E4B /* BasePopUpView.swift */; };
 		132B1928285CB06300584E4B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B1927285CB06300584E4B /* Utility.swift */; };
 		132B192C2862911300584E4B /* SettingsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132B192B2862911300584E4B /* SettingsTableCell.swift */; };
+		132B1933286E5FED00584E4B /* empty_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 132B1932286E5FED00584E4B /* empty_bg.png */; };
 		134151332844C8E100F1ECFC /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134151322844C8E100F1ECFC /* SettingsPresenter.swift */; };
 		134151352844C93100F1ECFC /* SettingsOptionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134151342844C93100F1ECFC /* SettingsOptionDTO.swift */; };
+		135213142870B6F50094402B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 135213132870B6F50094402B /* IQKeyboardManagerSwift */; };
 		135D68B4282535FF000A925A /* PasteBoardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135D68B3282535FF000A925A /* PasteBoardManager.swift */; };
 		137B0DC92806469400C854F3 /* CopyItemsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DC82806469400C854F3 /* CopyItemsPresenter.swift */; };
 		137B0DCC28064ABC00C854F3 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DCB28064ABC00C854F3 /* DetailsViewController.swift */; };
 		137B0DCE28064E0C00C854F3 /* MetaDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B0DCD28064E0C00C854F3 /* MetaDataCache.swift */; };
 		13A3D6CA27DD134B00423A32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D6C927DD134B00423A32 /* AppDelegate.swift */; };
 		13A3D6D127DD134B00423A32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A3D6CF27DD134B00423A32 /* Main.storyboard */; };
-		13A3D6D427DD134B00423A32 /* ClipStack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D6D227DD134B00423A32 /* ClipStack.xcdatamodeld */; };
 		13A3D6D627DD135000423A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A3D6D527DD135000423A32 /* Assets.xcassets */; };
 		13A3D6D927DD135000423A32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A3D6D727DD135000423A32 /* LaunchScreen.storyboard */; };
 		13A3D6E427DD135000423A32 /* ClipStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D6E327DD135000423A32 /* ClipStackTests.swift */; };
@@ -52,6 +54,20 @@
 		13A3D72C27DD4E5A00423A32 /* _BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D72B27DD4E5A00423A32 /* _BaseView.swift */; };
 		13A3D72E27DDD10400423A32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A3D72D27DDD10400423A32 /* Extensions.swift */; };
 		13AA5EAB27DF19DB00DB6B0D /* CopyItemHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */; };
+		13AB6428288751C60095D5AC /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13AB6427288751C60095D5AC /* Config.plist */; };
+		13AB642B288A17100095D5AC /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AB642A288A17100095D5AC /* SubscribeViewController.swift */; };
+		13AB642D288A172D0095D5AC /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AB642C288A172D0095D5AC /* SubscribeView.swift */; };
+		13AB642F288A18C80095D5AC /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AB642E288A18C80095D5AC /* ErrorHandler.swift */; };
+		13D7AD5E287A41C600D82A49 /* appIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 13D7AD5D287A41C600D82A49 /* appIcon.png */; };
+		13D7AD60287B006B00D82A49 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD5F287B006B00D82A49 /* SubscriptionManager.swift */; };
+		13D7AD63287B067700D82A49 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD62287B067700D82A49 /* OnBoardingViewController.swift */; };
+		13D7AD65287B06B100D82A49 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD64287B06B100D82A49 /* OnBoardingView.swift */; };
+		13D7AD67287B0A9100D82A49 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD66287B0A9100D82A49 /* MyPageViewController.swift */; };
+		13D7AD6A287B0B9800D82A49 /* FirstBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD69287B0B9800D82A49 /* FirstBoardViewController.swift */; };
+		13D7AD6C287B0BA400D82A49 /* SecondBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD6B287B0BA400D82A49 /* SecondBoardViewController.swift */; };
+		13D7AD6E287B1BC100D82A49 /* WhatsNewDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD6D287B1BC100D82A49 /* WhatsNewDTO.swift */; };
+		13D7AD70287B1D5A00D82A49 /* WhatsNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD6F287B1D5A00D82A49 /* WhatsNewCell.swift */; };
+		13D7AD72287B392400D82A49 /* OnBoardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D7AD71287B392400D82A49 /* OnBoardPresenter.swift */; };
 		13DDE39B2808DE4C00C4AB07 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DDE39A2808DE4C00C4AB07 /* DetailView.swift */; };
 		13EBD286284C8F190081E6F8 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EBD285284C8F190081E6F8 /* WidgetKit.framework */; };
 		13EBD288284C8F190081E6F8 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EBD287284C8F190081E6F8 /* SwiftUI.framework */; };
@@ -112,6 +128,7 @@
 
 /* Begin PBXFileReference section */
 		131078DA283DA82C00997F3B /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		132877C4287F6F4F00BBF642 /* ClipStack.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipStack.xcdatamodel; sourceTree = "<group>"; };
 		132B19152855D96400584E4B /* AddedCopyItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedCopyItemsView.swift; sourceTree = "<group>"; };
 		132B19172855D97400584E4B /* AddedCopyItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedCopyItemsViewController.swift; sourceTree = "<group>"; };
 		132B19192855D9EC00584E4B /* AddedClipsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedClipsPresenter.swift; sourceTree = "<group>"; };
@@ -123,6 +140,7 @@
 		132B1925285BD5E600584E4B /* BasePopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePopUpView.swift; sourceTree = "<group>"; };
 		132B1927285CB06300584E4B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		132B192B2862911300584E4B /* SettingsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCell.swift; sourceTree = "<group>"; };
+		132B1932286E5FED00584E4B /* empty_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_bg.png; sourceTree = "<group>"; };
 		134151322844C8E100F1ECFC /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		134151342844C93100F1ECFC /* SettingsOptionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionDTO.swift; sourceTree = "<group>"; };
 		135D68B3282535FF000A925A /* PasteBoardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteBoardManager.swift; sourceTree = "<group>"; };
@@ -132,7 +150,6 @@
 		13A3D6C627DD134B00423A32 /* ClipStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A3D6C927DD134B00423A32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A3D6D027DD134B00423A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		13A3D6D327DD134B00423A32 /* ClipStack.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipStack.xcdatamodel; sourceTree = "<group>"; };
 		13A3D6D527DD135000423A32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13A3D6D827DD135000423A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13A3D6DA27DD135000423A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -162,6 +179,20 @@
 		13A3D72B27DD4E5A00423A32 /* _BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _BaseView.swift; sourceTree = "<group>"; };
 		13A3D72D27DDD10400423A32 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		13AA5EAA27DF19DB00DB6B0D /* CopyItemHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyItemHeaderCell.swift; sourceTree = "<group>"; };
+		13AB6427288751C60095D5AC /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		13AB642A288A17100095D5AC /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
+		13AB642C288A172D0095D5AC /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
+		13AB642E288A18C80095D5AC /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		13D7AD5D287A41C600D82A49 /* appIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appIcon.png; sourceTree = "<group>"; };
+		13D7AD5F287B006B00D82A49 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		13D7AD62287B067700D82A49 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		13D7AD64287B06B100D82A49 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
+		13D7AD66287B0A9100D82A49 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		13D7AD69287B0B9800D82A49 /* FirstBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstBoardViewController.swift; sourceTree = "<group>"; };
+		13D7AD6B287B0BA400D82A49 /* SecondBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondBoardViewController.swift; sourceTree = "<group>"; };
+		13D7AD6D287B1BC100D82A49 /* WhatsNewDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewDTO.swift; sourceTree = "<group>"; };
+		13D7AD6F287B1D5A00D82A49 /* WhatsNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewCell.swift; sourceTree = "<group>"; };
+		13D7AD71287B392400D82A49 /* OnBoardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardPresenter.swift; sourceTree = "<group>"; };
 		13DDE39A2808DE4C00C4AB07 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		13EBD283284C8F190081E6F8 /* ClipStackWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipStackWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		13EBD285284C8F190081E6F8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -187,6 +218,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				135213142870B6F50094402B /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +259,14 @@
 			path = AddedCopyItems;
 			sourceTree = "<group>";
 		};
+		132B192D286E5C3700584E4B /* MyResources */ = {
+			isa = PBXGroup;
+			children = (
+				132B1932286E5FED00584E4B /* empty_bg.png */,
+			);
+			path = MyResources;
+			sourceTree = "<group>";
+		};
 		137B0DCA28064AAA00C854F3 /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,16 +305,19 @@
 			children = (
 				13EBD2A0284E48720081E6F8 /* ClipStack.entitlements */,
 				13A3D70227DD13BC00423A32 /* Constants */,
+				132B192D286E5C3700584E4B /* MyResources */,
 				13A3D70427DD13DE00423A32 /* Utils */,
 				13A3D71827DD177100423A32 /* Components */,
+				13F1CA62287F6AEF0037816C /* CoreData */,
 				13A3D70127DD13A900423A32 /* MVP */,
 				13A3D6FC27DD138B00423A32 /* Coordinator */,
 				13A3D6C927DD134B00423A32 /* AppDelegate.swift */,
+				13D7AD5D287A41C600D82A49 /* appIcon.png */,
 				13A3D6CF27DD134B00423A32 /* Main.storyboard */,
 				13A3D6D527DD135000423A32 /* Assets.xcassets */,
 				13A3D6D727DD135000423A32 /* LaunchScreen.storyboard */,
 				13A3D6DA27DD135000423A32 /* Info.plist */,
-				13A3D6D227DD134B00423A32 /* ClipStack.xcdatamodeld */,
+				13AB6427288751C60095D5AC /* Config.plist */,
 			);
 			path = ClipStack;
 			sourceTree = "<group>";
@@ -348,6 +391,8 @@
 				135D68B3282535FF000A925A /* PasteBoardManager.swift */,
 				132B191D2857CCE800584E4B /* Settings.swift */,
 				132B1927285CB06300584E4B /* Utility.swift */,
+				13D7AD5F287B006B00D82A49 /* SubscriptionManager.swift */,
+				13AB642E288A18C80095D5AC /* ErrorHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -358,6 +403,7 @@
 				13A3D71627DD16EA00423A32 /* CopyItemDTO.swift */,
 				13F512B127FD0EB400A49C55 /* HomeOptionsDTO.swift */,
 				134151342844C93100F1ECFC /* SettingsOptionDTO.swift */,
+				13D7AD6D287B1BC100D82A49 /* WhatsNewDTO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -365,6 +411,8 @@
 		13A3D70A27DD142A00423A32 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				13AB6429288A16EF0095D5AC /* Subscribe */,
+				13D7AD61287B066B00D82A49 /* OnBoarding */,
 				132B19142855D94B00584E4B /* AddedCopyItems */,
 				137B0DCA28064AAA00C854F3 /* Details */,
 				13F5129D27FAEFE200A49C55 /* CopyItems */,
@@ -385,6 +433,7 @@
 				131078DA283DA82C00997F3B /* DetailPresenter.swift */,
 				134151322844C8E100F1ECFC /* SettingsPresenter.swift */,
 				132B19192855D9EC00584E4B /* AddedClipsPresenter.swift */,
+				13D7AD71287B392400D82A49 /* OnBoardPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -394,6 +443,7 @@
 			children = (
 				13A3D71427DD162B00423A32 /* GenericCollectionViewController.swift */,
 				13F512A827FC6C5500A49C55 /* TabBarController.swift */,
+				13D7AD66287B0A9100D82A49 /* MyPageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -410,6 +460,35 @@
 				132B192B2862911300584E4B /* SettingsTableCell.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		13AB6429288A16EF0095D5AC /* Subscribe */ = {
+			isa = PBXGroup;
+			children = (
+				13AB642A288A17100095D5AC /* SubscribeViewController.swift */,
+				13AB642C288A172D0095D5AC /* SubscribeView.swift */,
+			);
+			path = Subscribe;
+			sourceTree = "<group>";
+		};
+		13D7AD61287B066B00D82A49 /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				13D7AD68287B0B8E00D82A49 /* Children */,
+				13D7AD62287B067700D82A49 /* OnBoardingViewController.swift */,
+				13D7AD64287B06B100D82A49 /* OnBoardingView.swift */,
+				13D7AD6F287B1D5A00D82A49 /* WhatsNewCell.swift */,
+			);
+			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		13D7AD68287B0B8E00D82A49 /* Children */ = {
+			isa = PBXGroup;
+			children = (
+				13D7AD69287B0B9800D82A49 /* FirstBoardViewController.swift */,
+				13D7AD6B287B0BA400D82A49 /* SecondBoardViewController.swift */,
+			);
+			path = Children;
 			sourceTree = "<group>";
 		};
 		13EBD284284C8F190081E6F8 /* Frameworks */ = {
@@ -431,6 +510,14 @@
 				13EBD2A428517D270081E6F8 /* Helper.swift */,
 			);
 			path = ClipStackWidget;
+			sourceTree = "<group>";
+		};
+		13F1CA62287F6AEF0037816C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				132877C3287F6F4F00BBF642 /* ClipStack.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		13F5129C27FAEFCE00A49C55 /* Settings */ = {
@@ -469,6 +556,9 @@
 				13EBD290284C8F1D0081E6F8 /* PBXTargetDependency */,
 			);
 			name = ClipStack;
+			packageProductDependencies = (
+				135213132870B6F50094402B /* IQKeyboardManagerSwift */,
+			);
 			productName = ClipStack;
 			productReference = 13A3D6C627DD134B00423A32 /* ClipStack.app */;
 			productType = "com.apple.product-type.application";
@@ -560,6 +650,9 @@
 				Base,
 			);
 			mainGroup = 13A3D6BD27DD134B00423A32;
+			packageReferences = (
+				135213122870B6F50094402B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = 13A3D6C727DD134B00423A32 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -579,6 +672,9 @@
 			files = (
 				13A3D6D927DD135000423A32 /* LaunchScreen.storyboard in Resources */,
 				13A3D6D627DD135000423A32 /* Assets.xcassets in Resources */,
+				13D7AD5E287A41C600D82A49 /* appIcon.png in Resources */,
+				132B1933286E5FED00584E4B /* empty_bg.png in Resources */,
+				13AB6428288751C60095D5AC /* Config.plist in Resources */,
 				13A3D6D127DD134B00423A32 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,13 +708,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13A3D6D427DD134B00423A32 /* ClipStack.xcdatamodeld in Sources */,
 				13A3D71727DD16EA00423A32 /* CopyItemDTO.swift in Sources */,
 				13F512B427FFA68B00A49C55 /* ImageCopyItemCell.swift in Sources */,
 				132B1926285BD5E600584E4B /* BasePopUpView.swift in Sources */,
+				13AB642F288A18C80095D5AC /* ErrorHandler.swift in Sources */,
+				13D7AD72287B392400D82A49 /* OnBoardPresenter.swift in Sources */,
 				13A3D71E27DD4D0F00423A32 /* Font.swift in Sources */,
 				137B0DCC28064ABC00C854F3 /* DetailsViewController.swift in Sources */,
 				13A3D72827DD4DE200423A32 /* PaddedLabel.swift in Sources */,
+				132877C5287F6F4F00BBF642 /* ClipStack.xcdatamodeld in Sources */,
+				13D7AD6E287B1BC100D82A49 /* WhatsNewDTO.swift in Sources */,
+				13AB642B288A17100095D5AC /* SubscribeViewController.swift in Sources */,
 				13A3D71027DD146900423A32 /* BasePresenter.swift in Sources */,
 				13F512B227FD0EB400A49C55 /* HomeOptionsDTO.swift in Sources */,
 				13A3D71C27DD186100423A32 /* HomePresenter.swift in Sources */,
@@ -631,7 +731,9 @@
 				132B192C2862911300584E4B /* SettingsTableCell.swift in Sources */,
 				13F512A127FAF04700A49C55 /* SettingsViewController.swift in Sources */,
 				132B191C2855F83200584E4B /* AddedCoordinator.swift in Sources */,
+				13D7AD63287B067700D82A49 /* OnBoardingViewController.swift in Sources */,
 				13A3D71A27DD177C00423A32 /* CopyItemCell.swift in Sources */,
+				13D7AD6C287B0BA400D82A49 /* SecondBoardViewController.swift in Sources */,
 				137B0DC92806469400C854F3 /* CopyItemsPresenter.swift in Sources */,
 				132B1928285CB06300584E4B /* Utility.swift in Sources */,
 				13A3D71527DD162B00423A32 /* GenericCollectionViewController.swift in Sources */,
@@ -641,17 +743,23 @@
 				134151332844C8E100F1ECFC /* SettingsPresenter.swift in Sources */,
 				132B1920285929AB00584E4B /* AddNewController.swift in Sources */,
 				13A3D72427DD4D6200423A32 /* ViewOptions.swift in Sources */,
+				13D7AD60287B006B00D82A49 /* SubscriptionManager.swift in Sources */,
 				13A3D70E27DD144600423A32 /* BaseViewController.swift in Sources */,
+				13D7AD70287B1D5A00D82A49 /* WhatsNewCell.swift in Sources */,
 				131078DB283DA82C00997F3B /* DetailPresenter.swift in Sources */,
 				13F512A527FAF07600A49C55 /* CopyItemsView.swift in Sources */,
+				13D7AD65287B06B100D82A49 /* OnBoardingView.swift in Sources */,
 				13DDE39B2808DE4C00C4AB07 /* DetailView.swift in Sources */,
+				13AB642D288A172D0095D5AC /* SubscribeView.swift in Sources */,
 				132B1924285BD53600584E4B /* CustomSwitch.swift in Sources */,
+				13D7AD67287B0A9100D82A49 /* MyPageViewController.swift in Sources */,
 				13A3D71227DD14D400423A32 /* CopyItemsViewController.swift in Sources */,
 				13EBD2A528517D270081E6F8 /* Helper.swift in Sources */,
 				13A3D6CA27DD134B00423A32 /* AppDelegate.swift in Sources */,
 				13A3D70827DD140D00423A32 /* Enums.swift in Sources */,
 				13A3D72627DD4DBE00423A32 /* TextFieldPasteDisabled.swift in Sources */,
 				13EBD2A328517C6A0081E6F8 /* WidgetContent.swift in Sources */,
+				13D7AD6A287B0B9800D82A49 /* FirstBoardViewController.swift in Sources */,
 				132B19162855D96400584E4B /* AddedCopyItemsView.swift in Sources */,
 				135D68B4282535FF000A925A /* PasteBoardManager.swift in Sources */,
 				13A3D72C27DD4E5A00423A32 /* _BaseView.swift in Sources */,
@@ -865,7 +973,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chuck.ClipStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -886,7 +994,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chuck.ClipStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1084,13 +1192,32 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		135213122870B6F50094402B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		135213132870B6F50094402B /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 135213122870B6F50094402B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin XCVersionGroup section */
-		13A3D6D227DD134B00423A32 /* ClipStack.xcdatamodeld */ = {
+		132877C3287F6F4F00BBF642 /* ClipStack.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				13A3D6D327DD134B00423A32 /* ClipStack.xcdatamodel */,
+				132877C4287F6F4F00BBF642 /* ClipStack.xcdatamodel */,
 			);
-			currentVersion = 13A3D6D327DD134B00423A32 /* ClipStack.xcdatamodel */;
+			currentVersion = 132877C4287F6F4F00BBF642 /* ClipStack.xcdatamodel */;
 			path = ClipStack.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

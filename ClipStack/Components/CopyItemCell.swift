@@ -21,11 +21,11 @@ class CopyItemCell: UICollectionViewCell{
     let imageOptions = ImageViewOptions(image: nil, size: (width: 100, height: 100))
     lazy var imageArea = ViewGenerator.getImageView(imageOptions)
     
-    let btnOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
-    lazy var threeDotsButton = ViewGenerator.getButton(btnOptions, circular: true)
+    let btnOptions = ButtonOptions(title: "", color: MyColors.primary, image: UIImage(systemName: "doc.on.doc"), smiley: nil)
+    lazy var fileCopyButton = ViewGenerator.getButton(btnOptions, circular: true)
     
-    let fileCopyOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
-    lazy var fileCopyButton = ViewGenerator.getButton(fileCopyOptions, circular: true)
+//    let fileCopyOptions = ButtonOptions(title: "", color: .clear, image: UIImage(systemName: "ellipsis"), smiley: nil)
+//    lazy var fileCopyButton = ViewGenerator.getButton(fileCopyOptions, circular: true)
     
     
     lazy var containerLinkView : UIStackView = {
@@ -46,9 +46,11 @@ class CopyItemCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         initialize()
+        
+        fileCopyButton.tintColor = MyColors.primary
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -61,6 +63,7 @@ class CopyItemCell: UICollectionViewCell{
     
     func show(view: UIView){
         if view is UIImageView{
+//            imageArea.roundCorners(corners: [.allCorners], radius: 10)
             imageArea.isHidden = false
             containerLinkView.isHidden = true
             label.isHidden = true
@@ -79,12 +82,15 @@ class CopyItemCell: UICollectionViewCell{
     
     func initialize() {
         
+        //to add cornerRadius on ImageView, You need clipsToBound set on UIImageView
+        imageArea.layer.cornerRadius = 10
+        
         contentView.layer.cornerRadius = 20
         
         contentView.addSubview(label)
         contentView.addSubview(date)
         contentView.addSubview(imageArea)
-        contentView.addSubview(threeDotsButton)
+        contentView.addSubview(fileCopyButton)
         containerLinkView.addArrangedSubview(linkView)
         linkView.sizeToFit()
         contentView.addSubview(containerLinkView)
@@ -97,57 +103,65 @@ class CopyItemCell: UICollectionViewCell{
         label.lineBreakMode = .byTruncatingMiddle
         label.numberOfLines = 3
         
+//        contentView.frame = self.bounds;
+//        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        
         triggerConstraints()
     }
     
     override func layoutSubviews() {
-        super.layoutSubviews()
+       
         
+        super.layoutSubviews()
         layer.cornerRadius = 20
-//        layer.masksToBounds = true
+        triggerConstraints()
+        
+        
+        
+//        roundCorners(corners: [.allCorners], radius: 10)
+
+        
     }
     
     func triggerConstraints() {
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.translatesAutoresizingMaskIntoConstraints = false
         containerLinkView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.backgroundColor = .systemGray6
+//
+//        contentView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+//        contentView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
 
-        contentView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        contentView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-
-//        linkView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-//        linkView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 30).isActive = true
-        
-//        label.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 20).isActive = true
-       
         
         date.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         date.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         
-        threeDotsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        threeDotsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        fileCopyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        fileCopyButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        
+        
+        //dynamic contents
+//        label.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
+//        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+////        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+//        label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
         
         label.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
+//        label.heightAnchor.constraint(equalToConstant: contentView.frame.height * 0.5).isActive = true
         label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+
         
-//        linkView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-//        linkView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-//        linkView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-//        linkView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
-        
-//        containerLinkView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         containerLinkView.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
         containerLinkView.heightAnchor.constraint(equalToConstant: contentView.frame.height * 0.5).isActive = true
-//        containerLinkView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         containerLinkView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         containerLinkView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-//
+
         
         imageArea.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        imageArea.widthAnchor.constraint(equalToConstant: contentView.frame.width - 30).isActive = true
         imageArea.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        imageArea.widthAnchor.constraint(equalToConstant: contentView.frame.width * 0.5).isActive = true
         imageArea.heightAnchor.constraint(equalToConstant: contentView.frame.height * 0.5).isActive = true
     }
 }

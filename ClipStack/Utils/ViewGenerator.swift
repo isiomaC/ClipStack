@@ -10,6 +10,18 @@ import Foundation
 import UIKit
 
 class ViewGenerator {
+    
+    static func getSimpleImageButton(image: UIImage, tintColor: UIColor = MyColors.primary) -> UIButton{
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.layer.cornerRadius = 10
+        btn.clipsToBounds = true
+        btn.tintColor = tintColor
+        btn.setImage(image, for: .normal)
+        btn.backgroundColor = .systemGray2
+        return btn
+    }
+    
     static func getButton(_ props: ButtonOptions, circular: Bool = false) -> UIButton {
         
         if circular {
@@ -30,18 +42,21 @@ class ViewGenerator {
             let btn = UIButton(frame: CGRect(x: 0, y: 0, width: Dimensions.screenSize.width, height: 44))
             btn.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 30.0, bottom: 10.0, right: 30.0)
             btn.translatesAutoresizingMaskIntoConstraints = false
-            btn.backgroundColor = props.color
+//            btn.backgroundColor = .systemBackground
            
             btn.setTitleColor(props.titleColor, for: .normal)
             btn.setTitle(props.title, for: .normal)
 //            btn.setImage(UIImage(systemName: "search"), for: .normal)
             btn.setImage(props.image,
                     for: .normal)
+            
+            btn.setTitleColor(props.color, for: .normal)
+            
             btn.titleLabel?.font = props.font
             
             btn.layer.cornerRadius = props.radius
             btn.layer.borderWidth = props.borderWidth
-            btn.layer.borderColor = UIColor.black.cgColor
+            btn.layer.borderColor = props.color.cgColor
             
             btn.sizeToFit()
             return btn
@@ -159,9 +174,12 @@ class ViewGenerator {
     static func getImageView(_ props: ImageViewOptions) -> UIImageView {
         let imgView = UIImageView(frame: CGRect(x: 0, y: 0, width: props.size!.width, height: props.size!.height))
         imgView.translatesAutoresizingMaskIntoConstraints = false
+        
 //        imgView.layer.cornerRadius = imgView.frame.size.height/2
-        imgView.layer.masksToBounds = false
+//        imgView.layer.masksToBounds = false
+        
         imgView.clipsToBounds = true
+        imgView.contentMode = .scaleAspectFill
         
         if let img = props.image {
             imgView.image = img
@@ -184,7 +202,6 @@ class ViewGenerator {
         textView.font = props.fontStyle
         textView.textAlignment = .natural
         textView.text = props.placeholder
-        textView.textColor = .systemGray6
         return textView
     }
 }

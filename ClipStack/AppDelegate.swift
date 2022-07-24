@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 import BackgroundTasks
 
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,12 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        IQKeyboardManager.shared.enable = true
+        
+        let _ = PasteBoardManager.shared //initialize pasteboard changeCount
+        
         startApp()
         
 //        cancelAllPandingBGTask()
 //        registerBackGroundTasks()
-//
-        let _ = PasteBoardManager.shared //initialize pasteboard changeCount
         
         return true
     }
@@ -111,7 +115,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            return
 //        }
         
-        self.window?.rootViewController = TabBarController()
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: UserDefaultkeys.isFirstLaunch)
+        
+        if isFirstLaunch{
+            self.window?.rootViewController = OnBoardingViewController()
+        }else{
+            self.window?.rootViewController = TabBarController()
+        }
+        
         self.window?.makeKeyAndVisible()
         UIView.transition(with: self.window!,
                           duration: 0.3,

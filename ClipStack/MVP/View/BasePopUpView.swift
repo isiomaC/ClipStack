@@ -13,6 +13,9 @@ class BasePopUpView : UIView{
     
     struct Constants{
         static let backgroundAlphaTo: CGFloat = 0.6
+        static let disabledAlpha: CGFloat = 0.2
+        static let enabledAplha: CGFloat = 1
+        static let invisibleAlpha: CGFloat = 0
     }
     
     lazy var alertView : UIView = {
@@ -26,8 +29,6 @@ class BasePopUpView : UIView{
     lazy var cancel = ViewGenerator.circularButton(image: UIImage(systemName: "xmark.circle.fill"), smiley: nil)
     
     lazy var avatar = ViewGenerator.styledImageView(withProps: ImageViewOptions(image: nil, size: (100, 100)))
-    
-    lazy var avatarLabel = ViewGenerator.styledLabled(withProps: LabelOptions(text: "Avatar", color: .black, fontStyle: AppFonts.labelText))
     
     private var viewControllerView: UIView?
     
@@ -47,7 +48,6 @@ class BasePopUpView : UIView{
     
     func initialize(){
         avatar.isUserInteractionEnabled = true
-        avatarLabel.isUserInteractionEnabled = true
         
         cancel.tintColor = .systemGray
         addSubview(alertView)
@@ -64,7 +64,6 @@ class BasePopUpView : UIView{
     
     func addViews(){
         alertView.addSubview(avatar)
-        alertView.addSubview(avatarLabel)
         alertView.addSubview(cancel)
     }
     
@@ -78,36 +77,30 @@ class BasePopUpView : UIView{
     func triggerConstraints(){
        
         triggerAvatarConstraints()
-        avatarLabel.centerXAnchor.constraint(equalTo: alertView.centerXAnchor).isActive = true
-        avatarLabel.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 5).isActive = true
         
         cancel.topAnchor.constraint(equalTo: alertView.topAnchor, constant: 10).isActive = true
         cancel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -10).isActive = true
         
     }
     
-    func setEnabled(button: UIButton){
-        button.alpha = 1
-        button.isEnabled = true
-    }
-    
-    func setDisabled(button: UIButton){
-        button.alpha = 0.2
-        button.isEnabled = false
-    }
-    
     func setUpData(){
         
     }
     
-    func showAlert(_ viewController: UIViewController, avatarUrl: String){
+    func setEnabled(button: UIButton){
+        button.alpha = Constants.enabledAplha
+        button.isEnabled = true
+    }
+    
+    func setDisabled(button: UIButton){
+        button.alpha = Constants.disabledAlpha
+        button.isEnabled = false
+    }
+    
+    func showAlert(_ viewController: UIViewController){
         
         guard let targetView = viewController.view else{
             return
-        }
-        
-        if avatarUrl != ""{
-//            avatar.sd_setImage(with: URL(string: avatarUrl), placeholderImage: Utils.getDefaultImage, options: .highPriority, completed: nil)
         }
         
         viewControllerView = targetView
@@ -115,8 +108,6 @@ class BasePopUpView : UIView{
         frame = CGRect(x: 0, y: 0, width: targetView.bounds.width, height: targetView.bounds.height)//targetView.bounds
         targetView.addSubview(self)
         targetView.addSubview(alertView)
-        
-        alertView.frame = CGRect(x: 30, y: -targetView.frame.height * 0.7, width: targetView.frame.size.width - 60, height: targetView.frame.height * 0.7)
         
         setAlertViewFrame(nil, targetView)
         
@@ -134,7 +125,10 @@ class BasePopUpView : UIView{
     func setAlertViewFrame(_ frame: CGRect?, _ parentView: UIView){
         alertView.frame = frame != nil
             ? frame!
-            : CGRect(x: 30, y: -parentView.frame.height * 0.7, width: parentView.frame.size.width - 60, height: parentView.frame.height * 0.7)
+            : CGRect(x: 30,
+                     y: -parentView.frame.height * 0.7,
+                     width: parentView.frame.size.width - 60,
+                     height: parentView.frame.height * 0.7)
     }
     
     @objc func dismissAlert(){
@@ -150,7 +144,7 @@ class BasePopUpView : UIView{
         } completion: { (done) in
             if done{
                 UIView.animate(withDuration: 0.25) {
-                    self.alpha = 0
+                    self.alpha = Constants.invisibleAlpha
                 } completion: { (done) in
                     if done {
                         self.alertView.removeFromSuperview()

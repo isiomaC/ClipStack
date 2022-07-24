@@ -21,17 +21,17 @@ class AddNewView: UIView {
     
     lazy var switchControl : CustomSwitch = {
         let segmentedSwitch = CustomSwitch(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        segmentedSwitch.backgroundColor = .systemGray6
+        segmentedSwitch.backgroundColor = .systemGray4
         segmentedSwitch.selectedTitleColor = .systemBackground
-        segmentedSwitch.titleColor = .systemTeal
+        segmentedSwitch.titleColor = .label
         segmentedSwitch.font = AppFonts.labelText
-        segmentedSwitch.thumbColor = .systemGray
+        segmentedSwitch.thumbColor = MyColors.primary
         segmentedSwitch.items = [SwitchKeys.text, SwitchKeys.image]
         
         return segmentedSwitch
     }()
     
-    lazy var textArea = ViewGenerator.getTextView(TextViewOptions(backgroundColor: .clear, placeholder: "Enter text", textColor: .systemGray6, fontStyle: AppFonts.labelText))
+    lazy var textArea = ViewGenerator.getTextView(TextViewOptions(backgroundColor: .clear, placeholder: "Enter text", textColor: .lightGray, fontStyle: AppFonts.labelText))
     
     lazy var uploadBtn = ViewGenerator.getButton(ButtonOptions(title: " Upload", color: .lightGray, image: "📷".image(), smiley: nil), circular: false)
     

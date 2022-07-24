@@ -33,18 +33,18 @@ struct SettingsOptionDTO{
         
         let settingsOptionsOne: [SettingsOptionDTO] = [
             SettingsOptionDTO(name: Constants.autoCopy, image: UIImage(systemName: "app.fill", withConfiguration: iconCOnfiguration)! ),
-            SettingsOptionDTO(name: Constants.layout,  image: UIImage(systemName: "clock.arrow.circlepath", withConfiguration: iconCOnfiguration)! ),
+//            SettingsOptionDTO(name: Constants.layout,  image: UIImage(systemName: "square.grid.2x2", withConfiguration: iconCOnfiguration)! ),
             SettingsOptionDTO(name: Constants.clearAfter,  image: UIImage(systemName: "clock.arrow.circlepath", withConfiguration: iconCOnfiguration)! ),
             
         ]
         
         let settingsOptionsTwo: [SettingsOptionDTO] = [
-            SettingsOptionDTO(name: Constants.shareWithFriend,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ), // sharesheet with app id copied over
-            SettingsOptionDTO(name: Constants.rateUs, image: UIImage(systemName: "captions.bubble.fill", withConfiguration: iconCOnfiguration)!),  //open review on app store
-            SettingsOptionDTO(name: Constants.contactUs,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
-            SettingsOptionDTO(name: Constants.privacyPolicy,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
-            SettingsOptionDTO(name: Constants.termsUse,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
-            SettingsOptionDTO(name: Constants.version,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
+            SettingsOptionDTO(name: Constants.shareWithFriend,  image: UIImage(systemName: "megaphone.fill", withConfiguration: iconCOnfiguration)! ), // sharesheet with app id copied over
+            SettingsOptionDTO(name: Constants.rateUs, image: UIImage(systemName: "star.leadinghalf.filled", withConfiguration: iconCOnfiguration)!),  //open review on app store
+//            SettingsOptionDTO(name: Constants.contactUs,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
+            SettingsOptionDTO(name: Constants.privacyPolicy,  image: UIImage(systemName: "lock.doc", withConfiguration: iconCOnfiguration)! ),
+            SettingsOptionDTO(name: Constants.termsUse,  image: UIImage(systemName: "doc.on.clipboard", withConfiguration: iconCOnfiguration)! ),
+//            SettingsOptionDTO(name: Constants.version,  image: UIImage(systemName: "camera.fill.badge.ellipsis", withConfiguration: iconCOnfiguration)! ),
 //            SettingsOptionDTO(name: CopyItemType.url.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "network", withConfiguration: iconCOnfiguration)! ),
 //            SettingsOptionDTO(name: CopyItemType.color.rawValue.capitalizingFirstLetter(),  image: UIImage(systemName: "capsule.fill", withConfiguration: iconCOnfiguration)! ),
         ]

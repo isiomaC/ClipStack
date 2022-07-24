@@ -102,13 +102,13 @@ extension UIViewController {
             (self.navigationController?.navigationBar.frame.height ?? 0.0)
     }
     
-    func showToast(_ controller: UIViewController, message: String, seconds: Double) {
+    func showToast(message: String, seconds: Double) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
         alert.view.backgroundColor = UIColor.black
         alert.view.alpha = 0.6
         alert.view.layer.cornerRadius = 15
 
-        controller.present(alert, animated: true)
+        self.present(alert, animated: true)
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
             alert.dismiss(animated: true)

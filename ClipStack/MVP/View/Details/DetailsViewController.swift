@@ -15,10 +15,10 @@ class DetailsViewController : BaseViewController {
     
     var detailPresenter: DetailPresenter?
     
-    var sendingViewController: CopyItemsViewController?
+    var sendingViewController: GenericCollectionView<CopyItem, CopyItemCell>?
     var copyItemPosition: Int?
     
-    init(copyItem: CopyItem, sendingInfo: (CopyItemsViewController, Int) ) {
+    init(copyItem: CopyItem, sendingInfo: (GenericCollectionView<CopyItem, CopyItemCell>, Int) ) {
         
         super.init()
         
@@ -28,7 +28,6 @@ class DetailsViewController : BaseViewController {
         detailPresenter = DetailPresenter(delegate: self)
         detailPresenter?.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         detailPresenter?.copyItem = copyItem
-        
         
         view = detailView
     }
@@ -46,11 +45,13 @@ class DetailsViewController : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.isHidden = false
+        
         guard let copyItem = detailPresenter?.copyItem,
               let value = detailPresenter?.resolveCopyItemType(copyItem: copyItem )else { return }
         
@@ -63,6 +64,7 @@ class DetailsViewController : BaseViewController {
     
     private func initButtonActions(){
         detailView.closeBtn.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
+        detailView.closeBtn.layer.zPosition = 1000
         
         detailView.copyButton.addTarget(self, action: #selector(copyButtonAction), for: .touchUpInside)
         
@@ -98,30 +100,41 @@ class DetailsViewController : BaseViewController {
 
 extension DetailsViewController{
     @objc func closeViewController(){
+        print("clicked")
         dismiss(animated: true, completion: nil)
     }
     
     @objc func copyButtonAction(){
         guard let copy = detailPresenter?.copyItem else { return }
+        
         detailPresenter?.copyItemToClipboard(copy: copy)
+        
+        Utility.showToast(self, message: "Item Copied", seconds: 1.5)
     }
     
     @objc func deleteButtonAction(){
-        guard let copy = detailPresenter?.copyItem,
-                let presenter = detailPresenter,
-                let vc = sendingViewController,
-                let postion = copyItemPosition else { return }
         
-        presenter.context?.delete(copy)
-        
-        vc.remove(position: postion)
-        
-        let hapticFeedback = UINotificationFeedbackGenerator()
-        hapticFeedback.notificationOccurred(.success)
-        
-        presenter.save()
-        
-        dismiss(animated: true, completion: nil)
+        Utility.showAlertController(self, preferredStyle: .actionSheet, confirmTitle: "Delete Item") { [weak self] in
+            
+            guard let stronSelf = self else { return }
+            
+            guard let copy = stronSelf.detailPresenter?.copyItem,
+                  let presenter = stronSelf.detailPresenter,
+                  let vc = stronSelf.sendingViewController,
+                  let postion = stronSelf.copyItemPosition else { return }
+            
+            presenter.context?.delete(copy)
+            
+            vc.remove(position: postion)
+            
+            let hapticFeedback = UINotificationFeedbackGenerator()
+            hapticFeedback.notificationOccurred(.success)
+            
+            presenter.save()
+            
+            stronSelf.dismiss(animated: true, completion: nil)
+        }
+      
     }
     
     @objc func shareButtonAction(){

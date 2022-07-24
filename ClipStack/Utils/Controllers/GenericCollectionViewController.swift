@@ -23,16 +23,18 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
     var verticalSpacing: CGFloat = 15
     var tabBarOffSet: CGFloat = 120
     
-    var hasEdgeMargins = true, hasRefresh = true, appeared = false, hasHeader = false, hasTabBar = false
+    var hasEdgeMargins = true, appeared = false, hasHeader = false, hasTabBar = false
+//    var  hasRefresh = false,
     
     var collecionView: UICollectionView!
     var mFlowLayout: UICollectionViewFlowLayout!
     
     var numberOItemsInRow: Int = 2
     
-    var emptyView: UILabel!
+//    var emptyView: UILabel!
     
-    var progressBar: UIActivityIndicatorView!
+//    var progressBar: UIActivityIndicatorView!
+    
     var loading = false
     var refreshingg = true
     var more = false
@@ -58,17 +60,18 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         collecionView.delegate = self
         collecionView.dataSource = self
         
-        progressBar.tintColor = .systemBlue
+//        progressBar.tintColor = .systemBlue
         
-        if hasRefresh {
-            swipeRefresh.addTarget(self, action: #selector(onSwipeRefresh), for: .valueChanged)
-            swipeRefresh.tintColor = .systemGray
-            collecionView.addSubview(swipeRefresh)
-        }
         
-        emptyView.backgroundColor = .systemBackground
-        emptyView.textColor = .systemGray
-        emptyView.clipsToBounds = true
+//        if hasRefresh {
+//            swipeRefresh.addTarget(self, action: #selector(onSwipeRefresh), for: .valueChanged)
+//            swipeRefresh.tintColor = .systemGray
+//            collecionView.addSubview(swipeRefresh)
+//        }
+        
+//        emptyView.backgroundColor = .systemBackground
+//        emptyView.textColor = .systemGray
+//        emptyView.clipsToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,6 +96,8 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         layout.minimumLineSpacing = verticalSpacing
         layout.minimumInteritemSpacing = verticalSpacing
       
+//        layout.itemSize = CGSize(width: Dimensions.screenSize.width, height: Dimensions.screenSize.height * 0.2)
+        
         layout.estimatedItemSize = CGSize(width: Dimensions.screenSize.width, height: Dimensions.screenSize.height * 0.2)
 //        // CGSize(width: Dimensions.screenSize.width/2, height: Dimensions.screenSize.height * 0.2)
 //       layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: -200, right: 10)
@@ -108,11 +113,11 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         
         refreshingg = false
         loading = false
-        progressBar.isHidden = true
+//        progressBar.isHidden = true
         setSwipeRefreshing(false)
         
-        emptyView.text = "" // Handle Empty View
-        emptyView.isHidden = getItemCopyCount() > 0
+//        emptyView.text = getItemCopyCount() > 0 && "" // Handle Empty View
+//        emptyView.isHidden = getItemCopyCount() > 0
         
     }
     
@@ -120,11 +125,14 @@ class GenericCollectionView<DataItem, DataCell: UICollectionViewCell>: BaseViewC
         if refreshing {
             more = true
             loading = false
-            progressBar.isHidden = false
-            emptyView.isHidden = true
-        } else if hasRefresh {
-            swipeRefresh.endRefreshing()
+//            progressBar.isHidden = false
+//            emptyView.isHidden = true
         }
+        
+//        else if hasRefresh {
+//            swipeRefresh.endRefreshing()
+//        }
+        
         refreshingg = refreshing
     }
     

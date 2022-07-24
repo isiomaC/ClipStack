@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IAPProductId</key>
+	<string>Coopp_Pro_1</string>
+	<key>apiRoute</key>
+	<string>https://clipstackweb.vercel.app/api/</string>
+	<key>webRoute</key>
+	<string>https://clipstackweb.vercel.app/</string>
+	<key>appStoreUrl</key>
+	<string></string>
+	<key>termsEULA</key>
+	<string>https://www.apple.com/legal/internet-services/itunes/dev/stdeula/</string>
+	<key>privacyPolicy</key>
+	<string>https://clipstackweb.vercel.app/privacypolicy</string>
+</dict>
+</plist>

@@ -25,22 +25,32 @@ class SettingsViewController: BaseViewController {
     
     var clearDuration: Int = UserDefaults.standard.integer(forKey: Constants.clearAfter)
     
-    let pickerOptions = [1, 5, 12, 24, 48]
+    let pickerOptions = [24, 48, 72]
     
     lazy var picker = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
-        title = "Settings"
+        self.title = "Settings"
         initTableView()
         initPresenter()
         
         picker.delegate = self
         picker.dataSource = self
         
+        SettingsCoordinator.shared.navigationController?.navigationBar.tintColor = MyColors.primary
+        
+        //wrench.and.screwdriver.fill
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(doNothing))
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: .pickerValueSelected, object: nil)
     
+    }
+    
+    @objc func doNothing(){
+        
     }
     
     deinit {
@@ -53,14 +63,12 @@ class SettingsViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = "Settings"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.title = ""
         navigationController?.navigationBar.prefersLargeTitles = false
         view.isHidden = true
     }
@@ -183,23 +191,29 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             
             switch option.name {
                 case Constants.shareWithFriend:
-                    print("share with friends")
+                    Utility.shareExternal(controller: self, itemToShare: Utility.appStoreUrl as AnyObject)
                     break;
+                
                 case Constants.rateUs:
-                    print("rate us")
+                    Utility.rateApp()
                     break;
-                case Constants.contactUs:
-                    print("Contact Us")
-                    break;
+                
+//                case Constants.contactUs:
+//                    print("Contact Us")
+//                    break;
+                
                 case Constants.privacyPolicy:
-                    print("Privacy")
+                    Utility.showSafariLink(self, pageRoute: Utility.privacyPolicyUrl)
                     break;
+                
                 case Constants.termsUse:
-                    print("terms")
+                    Utility.showSafariLink(self, pageRoute: Utility.termsAppleEula)
                     break;
-                case Constants.version:
-                    print("Version")
-                    break;
+                
+//                case Constants.version:
+//                    print("Version")
+//                    break;
+                
                 default : break;
             }
             
@@ -223,35 +237,42 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             
             if #available(iOS 14.0, *) {
                 var content = cell.defaultContentConfiguration()
+                cell.tintColor = MyColors.primary
                 content.text = mItem.name
                 content.image = mItem.image
+              
                 cell.contentConfiguration = content
                 
             } else {
                 cell.textLabel?.text = mItem.name
                 cell.imageView?.image = mItem.image
+                cell.imageView?.tintColor = MyColors.primary
             }
             
             if indexPath.row == 0{
                 
                 lazy var mSwitch = UISwitch(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+                
+                mSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.autoCopy)
+                
                 mSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
                 cell.accessoryView = mSwitch
-            }else if indexPath.row == 1 {
-                
-                lazy var mLayoutTextView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
-                lazy var mLayoutText = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
-                
-                mLayoutTextView.addSubview(mLayoutText)
-                mLayoutText.text = mText
-                cell.accessoryView = mLayoutTextView
-            }else if indexPath.row == 2{
+//            }
+//            else if indexPath.row == 1 {
+//
+//                lazy var mLayoutTextView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
+//                lazy var mLayoutText = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
+//
+//                mLayoutTextView.addSubview(mLayoutText)
+//                mLayoutText.text = mText
+//                cell.accessoryView = mLayoutTextView
+            }else if indexPath.row == 1{
                
                 lazy var mLayoutTextView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
                 lazy var mLayoutText = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 100))
                 
                 mLayoutTextView.addSubview(mLayoutText)
-                mLayoutText.text = String(UserDefaults.standard.integer(forKey: Constants.clearAfter))
+                mLayoutText.text = "\(String(UserDefaults.standard.integer(forKey: Constants.clearAfter))) h"
                 
                 cell.accessoryView = mLayoutTextView
             }
@@ -267,11 +288,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
             cell.textLabel?.text = mItem.name
             
+            cell.imageView?.tintColor = MyColors.primary
+            
             cell.imageView?.image = mItem.image
 
             cell.accessoryType = mItem.accessoryType
             
             cell.selectionStyle = .none
+            
         }
 
         return cell
